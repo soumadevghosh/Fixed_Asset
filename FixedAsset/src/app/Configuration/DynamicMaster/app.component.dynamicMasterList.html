@@ -1,0 +1,98 @@
+<div class="container-fluid">
+    <h5 style="left: 45%;position:absolute;">Dynamic Master</h5>
+    <div class="panel panel-default card-view ">
+        <div class="panel-body">
+            <div class="row">
+                
+                    <div class="form-group col-md-2">
+                        <p><button type="button" class="btn btn-primary" (click)="openTableDialog()">Add New Table Name</button></p> 
+                    </div>
+                <div class="form-group col-md-2">
+                    <p><button type="button" class="btn btn-primary" (click)="openDialog()">Add New Table Properties</button><br/></p>
+                    </div>
+            </div>
+            
+            <hr/>
+            <form #DynamicSearch="ngForm" (ngSubmit)="onSubmit(DynamicSearch)">
+                <div class="row">
+                    <div class="col-md-12">
+                    <div class="form-group col-md-2">
+                        <u><h4>Search Data</h4></u>
+                    </div>
+                </div>
+            </div>
+           
+            <div class="row">
+                <!-- <div class="col-md-12"> -->
+                    <mat-form-field form-group class="col-md-3" >
+                        <mat-select placeholder="Select Table Name to Search Data" name="tableName" [(ngModel)]="model.tableName" [(value)]= "model.srcDynTabName">
+                            <mat-option *ngFor="let tbl of model.TableList" [(value)]="tbl.tableName" >{{ tbl.tableName }}</mat-option>
+                          </mat-select>
+                    </mat-form-field>
+                    <div class="form-group col-md-1">
+                        <button type="submit" class="btn btn-primary">Search</button>
+                    </div>
+                    <!-- <div class="form-group col-md-2">
+                        <button type="button" class="btn btn-danger" (click)="ReloadGrid()">Reload Grid</button>
+                    </div> -->
+                <!-- </div> -->
+            </div>
+        </form>
+        <hr/>
+            <mat-form-field class="search-form-field">
+                <input matInput [(ngModel)]="searchKey" placeholder="Search" autocomplete="off" (keyup)="applyFilter()">
+            </mat-form-field>          
+            <div class="table table-responsive">
+                <mat-table [dataSource]="datasource" matSort >
+                    <ng-container  matColumnDef="tableName">
+                        <mat-header-cell *matHeaderCellDef mat-sort-header>Table Name</mat-header-cell>
+                        <mat-cell *matCellDef="let dyn">{{dyn.tableName}}</mat-cell>
+                    </ng-container>
+                    <ng-container  matColumnDef="name">
+                        <mat-header-cell *matHeaderCellDef mat-sort-header>Name</mat-header-cell>
+                        <mat-cell *matCellDef="let dyn">{{dyn.name}}</mat-cell>
+                    </ng-container>
+                    <ng-container  matColumnDef="shortName">
+                        <mat-header-cell *matHeaderCellDef mat-sort-header>Short Name</mat-header-cell>
+                        <mat-cell *matCellDef="let dyn">{{dyn.shortName}}</mat-cell>
+                    </ng-container>
+                    <ng-container  matColumnDef="description">
+                        <mat-header-cell *matHeaderCellDef mat-sort-header>Description</mat-header-cell>
+                        <mat-cell *matCellDef="let dyn">{{dyn.description}}</mat-cell>
+                    </ng-container>
+                    
+                    <ng-container  matColumnDef="addedOn">
+                        <mat-header-cell *matHeaderCellDef mat-sort-header>Created Date</mat-header-cell>
+                        <mat-cell *matCellDef="let dyn">{{dyn.addedOn}}</mat-cell>
+                    </ng-container>
+                    <ng-container  matColumnDef="status">
+                        <mat-header-cell *matHeaderCellDef mat-sort-header>Status</mat-header-cell>
+                        <mat-cell *matCellDef="let dyn" [ngClass]="dyn.status=='Inactive' ? 'cellRedColor' : 'cellGreenColor'">{{dyn.status}}</mat-cell>
+                    </ng-container>
+                    <ng-container matColumnDef="Action">
+                        <mat-header-cell *matHeaderCellDef>Action</mat-header-cell>
+                        <mat-cell *matCellDef="let dyn" class="grid-button-row">  
+                            <button mat-raised-button color="primary" (click)='onEdit(dyn)'>Edit</button>
+                            <button mat-raised-button color="warn" (click)='onDelete(dyn)'>Delete</button>
+                        </mat-cell>
+                    </ng-container>
+                    <ng-container matColumnDef="loading">
+                        <mat-footer-cell *matFooterCellDef colspan="5">
+                           Loading Please Wait...
+                        </mat-footer-cell>
+                     </ng-container>
+                     <ng-container matColumnDef="noData">
+                        <mat-footer-cell *matFooterCellDef colspan="5">
+                           No Data Found
+                        </mat-footer-cell>
+                     </ng-container>
+                    <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+                    <mat-row *matRowDef="let row; columns:displayedColumns"></mat-row>
+                    <mat-footer-row *matFooterRowDef="['loading']" [ngClass]="{'gridFooter':datasource!=null}"></mat-footer-row>
+                    <mat-footer-row *matFooterRowDef="['noData']" [ngClass]="{'gridFooter':!(datasource!=null && datasource.data.length==0)}"></mat-footer-row>
+                </mat-table>
+                <mat-paginator [pageSizeOptions]="[25,50,100]" [pageSize]="25" showFirstLastButtons></mat-paginator>
+            </div>
+        </div>
+    </div>
+</div>

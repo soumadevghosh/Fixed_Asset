@@ -1,0 +1,205 @@
+<div class="container-fluid">
+    <div class="row">
+        <h5 style="left: 45%;position:absolute;">Cart Items</h5>
+    </div>
+    <div class="search-form-field">
+        <mat-form-field>
+            <input matInput [(ngModel)]="searchKey" placeholder="Search" autocomplete="off" (keyup)="applyFilter()">
+        </mat-form-field>
+    </div>
+
+    <div style="margin-top: 3rem;" *ngIf="requisitionType == 'ManualRequisition'">
+        <form [formGroup]=manualTransferForm (ngSubmit)=transferForManual(manualTransferForm)>
+            <mat-label>Requisition Done By</mat-label>
+            <mat-form-field class="col-sm-2" style="width: 200px;">
+                <mat-label>Requisition By</mat-label>
+                <mat-select formControlName="requisitionMadeBy">
+                    <mat-option *ngFor="let requisition of requisitionMadeBy" [value]="requisition.value">
+                        {{requisition.name}}
+                    </mat-option>
+                </mat-select>
+            </mat-form-field>
+            <mat-label>Forward To:</mat-label>
+            <mat-form-field class="col-sm-2" style="width:200px;">
+                <mat-label>Department</mat-label>
+                <mat-select formControlName="transferTo">
+                    <mat-option *ngFor="let receiver of transferTo" [value]="receiver.value">
+                        {{ receiver.name }}
+                    </mat-option>
+                </mat-select>
+            </mat-form-field>
+            <mat-form-field class="col-sm-2" style="width:200px;" *ngIf="showDept">
+                <mat-label>Inventory Department</mat-label>
+                <mat-select formControlName="inventoryDept">
+                    <mat-option *ngFor="let invdept of model.inventoryDeptList" [value]="invdept.InventoryDeptId">
+                        {{ invdept.InventoryDeptName }}
+                    </mat-option>
+                </mat-select>
+            </mat-form-field>
+            <button type="submit" style="width: 300px;" *ngIf="showButton" mat-raised-button color="primary">Forward
+                to {{buttonText}}</button>
+        </form>
+    </div>
+    <div style="margin-top: 3rem;" *ngIf="requisitionType == null">
+        <form [formGroup]=transferForm (ngSubmit)=transfer(transferForm)>
+            <mat-label>Forward To:</mat-label>
+            <mat-form-field class="col-sm-2" style="width:200px;">
+                <mat-label>Department</mat-label>
+                <mat-select formControlName="transferTo">
+                    <mat-option *ngFor="let receiver of transferTo" [value]="receiver.value">
+                        {{ receiver.name }}
+                    </mat-option>
+                </mat-select>
+            </mat-form-field>
+            <mat-form-field class="col-sm-2" style="width:200px;" *ngIf="showDept">
+                <mat-label>Inventory Department</mat-label>
+                <mat-select formControlName="inventoryDept">
+                    <mat-option *ngFor="let invdept of model.inventoryDeptList" [value]="invdept.InventoryDeptId">
+                        {{ invdept.InventoryDeptName }}
+                    </mat-option>
+                </mat-select>
+            </mat-form-field>
+            <button type="submit" style="width: 300px;" *ngIf="showButton" mat-raised-button color="primary">Forward
+                to {{buttonText}}</button>
+        </form>
+    </div>
+    <div style="margin-top: 3rem;" *ngIf="requisitionType == 'HQInventory'">
+        <form [formGroup]=procTransferForm (ngSubmit)=transferToHQProcurement(procTransferForm)>
+            <mat-label>Forward To:</mat-label>
+            <mat-form-field class="col-sm-2" style="width:200px;">
+                <mat-label>Department</mat-label>
+                <mat-select formControlName="transferTo">
+                    <mat-option [value]="3">
+                        HQ Procurement Department
+                    </mat-option>
+                </mat-select>
+            </mat-form-field>
+            <button type="submit" style="width: 300px;" mat-raised-button color="primary">Forward
+                to HQ Procurement Department</button>
+        </form>
+    </div>
+    <div style="margin-top: 3rem;" *ngIf="requisitionType == 'HQManualRequisition'">
+        <form [formGroup]=manualProcTransferForm (ngSubmit)=transferToHQProcurementForManual(manualProcTransferForm)>
+            <mat-label>Requisition Done By</mat-label>
+            <mat-form-field class="col-sm-2" style="width: 200px;">
+                <mat-label>Requisition By</mat-label>
+                <mat-select formControlName="hqRequisitionMadeByType">
+                    <mat-option *ngFor="let requisition of hqRequisitionMadeByType" [value]="requisition.value">
+                        {{requisition.name}}
+                    </mat-option>
+                </mat-select>
+            </mat-form-field>
+            <mat-label>Forward To:</mat-label>
+            <mat-form-field class="col-sm-2" style="width:200px;">
+                <mat-label>Department</mat-label>
+                <mat-select formControlName="transferTo">
+                    <mat-option [value]="3">
+                        HQ Procurement Department
+                    </mat-option>
+                </mat-select>
+            </mat-form-field>
+            <button type="submit" style="width: 300px;" mat-raised-button color="primary">Forward
+                to HQ Procurement Department</button>
+        </form>
+    </div>
+
+    <div style="margin-top: 3rem;" *ngIf="requisitionType == 'HQProcurement' || requisitionType == 'Procurement'">
+        <form [formGroup]=vendorTransferForm (ngSubmit)=orderToVendor(vendorTransferForm)>
+            <mat-label>Filter By:</mat-label>
+            <mat-form-field class="col-sm-2" style="width:200px;">
+                <mat-label>Vendor</mat-label>
+                <mat-select formControlName="vendor">
+                    <mat-option *ngFor="let vendor of model.vendorList" [value]="vendor.vendorId">
+                        {{vendor.vendorName}}
+                    </mat-option>
+                </mat-select>
+            </mat-form-field>
+            <mat-label>Order Type:</mat-label>
+            <mat-form-field class="col-sm-2" style="width:200px;">
+                <mat-label>Types</mat-label>
+                <mat-select formControlName="orderType">
+                    <mat-option *ngFor="let type of orderTypes" [value]="type.typeId">
+                        {{type.typeName}}
+                    </mat-option>
+                </mat-select>
+            </mat-form-field>
+            <button type="submit" style="width: auto;" mat-raised-button color="primary">Place Order</button>
+        </form>
+    </div>
+    <div class="panel panel-default card-view ">
+        <div class="panel-body">
+            <div class="table table-responsive">
+                <mat-table [dataSource]='dataSource' matSort>
+                    <ng-container matColumnDef="select">
+                        <mat-header-cell *matHeaderCellDef>
+                            <mat-checkbox (change)="$event ? masterToggle() : null"
+                                [checked]="selection.hasValue() && isAllSelected()"
+                                [indeterminate]="selection.hasValue() && !isAllSelected()">
+                            </mat-checkbox>
+                        </mat-header-cell>
+                        <mat-cell *matCellDef="let row">
+                            <mat-checkbox (click)="$event.stopPropagation()"
+                                (change)="$event ? selection.toggle(row) : null" [checked]="selection.isSelected(row)">
+                            </mat-checkbox>
+                        </mat-cell>
+                    </ng-container>
+                    <ng-container matColumnDef="SlNo">
+                        <mat-header-cell *matHeaderCellDef mat-sort-header>Serial No.</mat-header-cell>
+                        <mat-cell *matCellDef="let row; let i = index;">{{i+1}}</mat-cell>
+                    </ng-container>
+                    <ng-container matColumnDef="reqId">
+                        <mat-header-cell *matHeaderCellDef mat-sort-header [style.display]="'none'">Requisition Id
+                        </mat-header-cell>
+                        <mat-cell *matCellDef="let row" [style.display]="'none'">{{row.requisitionId}}</mat-cell>
+                    </ng-container>
+                    <ng-container matColumnDef="cartId">
+                        <mat-header-cell *matHeaderCellDef mat-sort-header [style.display]="'none'">Cart Id
+                        </mat-header-cell>
+                        <mat-cell *matCellDef="let row" [style.display]="'none'">{{row.cartId}}</mat-cell>
+                    </ng-container>
+                    <ng-container matColumnDef="reqNo">
+                        <mat-header-cell *matHeaderCellDef mat-sort-header>Requisition No.</mat-header-cell>
+                        <mat-cell *matCellDef="let row">{{row.requisitionNo}}</mat-cell>
+                    </ng-container>
+                    <ng-container matColumnDef="functionalDept">
+                        <mat-header-cell *matHeaderCellDef mat-sort-header>Functional Dept</mat-header-cell>
+                        <mat-cell *matCellDef="let row">{{row.functionalDept}}</mat-cell>
+                    </ng-container>
+                    <ng-container matColumnDef="itemName">
+                        <mat-header-cell *matHeaderCellDef mat-sort-header>Item</mat-header-cell>
+                        <mat-cell *matCellDef="let row">{{row.itemName}}</mat-cell>
+                    </ng-container>
+                    <ng-container matColumnDef="reqQty">
+                        <mat-header-cell *matHeaderCellDef mat-sort-header>Requisition Qty(pcs)</mat-header-cell>
+                        <mat-cell *matCellDef="let row">{{row.qty}}</mat-cell>
+                    </ng-container>
+                    <ng-container matColumnDef="apprQty">
+                        <mat-header-cell *matHeaderCellDef mat-sort-header>Approved Qty(pcs)</mat-header-cell>
+                        <mat-cell *matCellDef="let row">{{row.approvedQty}}</mat-cell>
+                    </ng-container>
+                    <ng-container matColumnDef="vendor">
+                        <mat-header-cell *matHeaderCellDef mat-sort-header>Vendor</mat-header-cell>
+                        <mat-cell *matCellDef="let row">{{row.vendorName}}</mat-cell>
+                    </ng-container>
+                    <ng-container matColumnDef="loading">
+                        <mat-footer-cell *matFooterCellDef colspan="5">
+                            Loading Please Wait...
+                        </mat-footer-cell>
+                    </ng-container>
+                    <ng-container matColumnDef="noData">
+                        <mat-footer-cell *matFooterCellDef colspan="5">
+                            No Data Found
+                        </mat-footer-cell>
+                    </ng-container>
+                    <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+                    <mat-row *matRowDef="let row; columns:displayedColumns"></mat-row>
+                    <mat-footer-row *matFooterRowDef="['loading']" [ngClass]="{'gridFooter':dataSource!=null}">
+                    </mat-footer-row>
+                    <mat-footer-row *matFooterRowDef="['noData']"
+                        [ngClass]="{'gridFooter':!(dataSource!=null && dataSource.data.length==0)}"></mat-footer-row>
+                </mat-table>
+                <mat-paginator [pageSizeOptions]="[25,50,100]" [pageSize]="25" showFirstLastButtons></mat-paginator>
+            </div>
+        </div>
+    </div>
+</div>

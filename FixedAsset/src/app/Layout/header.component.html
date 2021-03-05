@@ -1,0 +1,131 @@
+<!-- <link rel="stylesheet"  href="/header.component.css"> -->
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <a class="navbar-brand" href="javascript:void(0)">Fixed Asset</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      
+      <span class="navbar-toggler-icon"></span>
+    </button>
+  
+    <div class="collapse navbar-collapse" id="navbarSupportedContent"> 
+
+
+      <ul class="navbar-nav mr-auto"> 
+        <li ngbDropdown *ngFor="let item of menuList" class="nav-item dropdown">
+            <a ngbDropdownToggle 
+             class="nav-link dropdown-toggle" href={{item.routerLink}} id="navbarDropdown" role="button" >
+             {{item.name}}
+            </a>
+            <div ngbDropdownMenu  class="dropdown-menu" aria-labelledby="navbarDropdown">
+              <a  *ngFor="let childMenu of item.children"
+               class="dropdown-item" href={{childMenu.routerLink}}>{{childMenu.name}}
+               <div class="dropdown-divider"></div>
+              </a>
+            
+            </div>
+
+<!-- <div ngbDropdownMenu  class="dropdown-menu" aria-labelledby="navbarDropdown">
+            <a *ngFor="let menu of menuList" routerLink={{menu.routerLink}} class="dropdown-item menu-item">{{menu.name}} 
+              <div class="dropdown-divider"></div>
+            </a> -->
+
+        </li>   
+        
+<!--         
+        <li ngbDropdown  class="nav-item dropdown">
+          <a ngbDropdownToggle class="nav-link dropdown-toggle" href="javascript:void(0)" id="navbarDropdown" role="button" >
+           Configuration
+          </a>
+          <div ngbDropdownMenu  class="dropdown-menu" aria-labelledby="navbarDropdown">
+            
+              <a class="dropdown-item" routerLink="/configuration/department">Functional Department</a>
+              <div class="dropdown-divider"></div>
+              <a class="dropdown-item" routerLink="/configuration/itemgroup">Item Group</a>
+              <div class="dropdown-divider"></div>
+              <a class="dropdown-item" routerLink="/configuration/RequisitionType">Requisition Type</a>
+              <div class="dropdown-divider"></div>
+              <a class="dropdown-item" routerLink="/configuration/inventorydepartment">Inventory Department</a>
+              <div class="dropdown-divider"></div>
+         
+            <a class="dropdown-item" routerLink="/configuration/employee">Employee</a>
+            <div class="dropdown-divider"></div>
+            <a class="dropdown-item" routerLink="/configuration/itemcategory">Item Category</a>
+            <div class="dropdown-divider"></div>
+
+            <a class="dropdown-item" routerLink="/configuration/employeeCategory">Employee Category</a>
+            <div class="dropdown-divider"></div>
+            <a class="dropdown-item" routerLink="/configuration/Unit">Unit</a>
+            <div class="dropdown-divider"></div>
+         
+            <a class="dropdown-item" routerLink="/configuration/CompanyMaster">Company Master</a>
+            <div class="dropdown-divider"></div>
+            <a class="dropdown-item" routerLink="/configuration/VendorTypeMaster">Vendor Type Master</a>
+            <div class="dropdown-divider"></div>
+            <a class="dropdown-item" routerLink="/configuration/StatutoryMaster">Statutory Master</a>
+            <div class="dropdown-divider"></div>
+            <a class="dropdown-item" routerLink="/configuration/DynamicMaster">Dynamic Master</a>
+            <div class="dropdown-divider"></div>
+         
+            <a class="dropdown-item" routerLink="/configuration/servicemaster">Service Master</a>
+            <div class="dropdown-divider"></div>
+    
+            <a class="dropdown-item" routerLink="/configuration/DeptWiseMenu">Dept Wise Menu Master</a>
+            <div class="dropdown-divider"></div>
+            <a class="dropdown-item" routerLink="/configuration/UserWiseMenu">User Wise Menu Master</a>
+
+            <div class="dropdown-divider"></div>
+            <a class="dropdown-item" routerLink="/configuration/ItemUnitMaster">Item Unit Master</a>
+            <div class="dropdown-divider"></div>
+            
+            <a class="dropdown-item" routerLink="/configuration/Item">Items</a>
+            <div class="dropdown-divider"></div>
+            <a class="dropdown-item" routerLink="configuration/Users">Users</a>
+            <div class="dropdown-divider"></div>
+         
+            <a class="dropdown-item" routerLink="configuration/Vendor">Vendors</a>
+            <div class="dropdown-divider"></div>
+            <a class="dropdown-item" routerLink="configuration/VendorItemMapping">Vendor Item Mapping</a>
+            <div class="dropdown-divider"></div>
+            <a class="dropdown-item" routerLink="configuration/Quotation">Quotation</a>
+
+
+          
+          </div>
+        </li>   
+        <li ngbDropdown  class="nav-item dropdown">
+            <a ngbDropdownToggle class="nav-link dropdown-toggle" href="javascript:void(0)" id="navbarDropdown" role="button" >
+              Activity
+            </a>
+
+            <a class="dropdown-item" routerLink="activities/Requisition">Requisition
+            <div class="dropdown-divider"></div> </a>
+             <a class="dropdown-item" routerLink="/activities/RequisitionByUser">Requisition By User</a>
+            <div class="dropdown-divider"></div>
+             <a class="dropdown-item" routerLink="activities/requisitionsByDepartment">Functional Departmental Requisitions</a>
+            <div class="dropdown-divider"></div>
+            <a class="dropdown-item" routerLink="activities/requisitionToProcurement">Requisitions To Procurement Executive</a>
+            <div class="dropdown-divider"></div>
+            <a class="dropdown-item" routerLink="activities/requisitionToHQInventory">Requisitions To HQ Inventory Department</a>
+        </li>     -->
+
+
+
+      </ul>
+      <div class="form-inline my-2 my-lg-0">
+        <ul class="navbar-nav mr-auto">
+          <li ngbDropdown  class="nav-item dropdown">
+            <div class="loggedUserDetails" >
+              <span>Hi,  <span>{{userDetails.UserName}}</span> </span>
+              <span>{{userDetails.EmailId}}</span>
+            </div>
+          </li> 
+        <li ngbDropdown  class="nav-item dropdown">
+        <img ngbDropdownToggle src="./assets/noImage.jpg" style="border-radius: 50%;" width="40px" class="nav-link dropdown-toggle"  />
+        
+           <div ngbDropdownMenu  class="dropdown-menu logout" aria-labelledby="navbarDropdown">
+            <a class="dropdown-item" (click)="Logout()" href="javascript:void(0)"> Logout</a>
+          </div>
+        </li>   
+        </ul> 
+      </div>
+    </div>
+  </nav>

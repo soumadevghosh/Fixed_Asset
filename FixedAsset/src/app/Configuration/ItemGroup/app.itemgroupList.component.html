@@ -1,0 +1,71 @@
+<div class="container-fluid">
+    <h5 style="left: 45%;position:absolute;">Item Group Master</h5>
+    <div class="panel panel-default card-view ">
+        <div class="panel-body">
+            <p>
+                <button type="button" class="btn btn-primary" (click)="openDialog()">Add New</button>
+            </p> 
+            <mat-form-field class="search-form-field">
+                <input matInput [(ngModel)]="searchKey" placeholder="Search" autocomplete="off" (keyup)="applyFilter()">
+            </mat-form-field>          
+            <div class="table table-responsive">
+                <mat-table [dataSource]="datasource" matSort >
+                    <ng-container  matColumnDef="SlNo">
+                        <mat-header-cell *matHeaderCellDef mat-sort-header>Serial No.</mat-header-cell>
+                        <mat-cell *matCellDef="let group; let i = index;">{{i+1}}</mat-cell>
+                    </ng-container>
+                    <ng-container  matColumnDef="ItemGroupName">
+                        <mat-header-cell *matHeaderCellDef mat-sort-header>Item Group</mat-header-cell>
+                        <mat-cell *matCellDef="let group">{{group.ItemGroupName}}</mat-cell>
+                    </ng-container>
+                    <ng-container  matColumnDef="ItemCategoryName">
+                        <mat-header-cell *matHeaderCellDef mat-sort-header>Item Category</mat-header-cell>
+                        <mat-cell *matCellDef="let group">{{group.ItemCategoryName}}</mat-cell>
+                    </ng-container>
+                    <ng-container  matColumnDef="InventoryDeptName">
+                        <mat-header-cell *matHeaderCellDef mat-sort-header>Inventory Dept</mat-header-cell>
+                        <mat-cell *matCellDef="let group">{{group.InventoryDeptName}}</mat-cell>
+                    </ng-container>
+                    <ng-container  matColumnDef="strMaintenanceSchedule">
+                        <mat-header-cell *matHeaderCellDef mat-sort-header>Maintenance Schedule</mat-header-cell>
+                        <mat-cell *matCellDef="let group">{{group.strMaintenanceSchedule}}</mat-cell>
+                    </ng-container>
+                    <ng-container  matColumnDef="strCalibrationSchedule">
+                        <mat-header-cell *matHeaderCellDef mat-sort-header>Calibration Schedule</mat-header-cell>
+                        <mat-cell *matCellDef="let group">{{group.strCalibrationSchedule}}</mat-cell>
+                    </ng-container>
+                    <ng-container  matColumnDef="addedOn">
+                        <mat-header-cell *matHeaderCellDef mat-sort-header>Created Date</mat-header-cell>
+                        <mat-cell *matCellDef="let group">{{group.addedOn}}</mat-cell>
+                    </ng-container>
+                    <ng-container  matColumnDef="status">
+                        <mat-header-cell *matHeaderCellDef mat-sort-header>Status</mat-header-cell>
+                        <mat-cell *matCellDef="let group" [ngClass]="group.status=='Inactive' ? 'cellRedColor' : 'cellGreenColor'">{{group.status}}</mat-cell>
+                    </ng-container>
+                    <ng-container matColumnDef="Action">
+                        <mat-header-cell *matHeaderCellDef>Action</mat-header-cell>
+                        <mat-cell *matCellDef="let group" class="grid-button-row">  
+                            <button mat-raised-button color="primary" (click)='onEdit(group)'>Edit</button>
+                            <button mat-raised-button color="warn" (click)='onDelete(group)'>Delete</button>
+                        </mat-cell>
+                    </ng-container>
+                    <ng-container matColumnDef="loading">
+                        <mat-footer-cell *matFooterCellDef colspan="5">
+                           Loading Please Wait...
+                        </mat-footer-cell>
+                     </ng-container>
+                     <ng-container matColumnDef="noData">
+                        <mat-footer-cell *matFooterCellDef colspan="5">
+                           No Data Found
+                        </mat-footer-cell>
+                     </ng-container>
+                    <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+                    <mat-row *matRowDef="let row; columns:displayedColumns"></mat-row>
+                    <mat-footer-row *matFooterRowDef="['loading']" [ngClass]="{'gridFooter':datasource!=null}"></mat-footer-row>
+                    <mat-footer-row *matFooterRowDef="['noData']" [ngClass]="{'gridFooter':!(datasource!=null && datasource.data.length==0)}"></mat-footer-row>
+                </mat-table>
+                <mat-paginator [pageSizeOptions]="[25,50,100]" [pageSize]="25" showFirstLastButtons></mat-paginator>
+            </div>
+        </div>
+    </div>
+</div>

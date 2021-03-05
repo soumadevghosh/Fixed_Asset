@@ -1,0 +1,40 @@
+<form #InventoryDepartmentForm="ngForm" (ngSubmit)="onSubmit(InventoryDepartmentForm)">
+    <div class="row">
+        <div class="col-md-12">
+            <mat-form-field class="col-md-6">
+                <mat-label>Inventory Department</mat-label>
+                <input matInput [(ngModel)]="model.InventoryDeptName" name="InventoryDeptName" #invInventoryDeptName="ngModel" autocomplete="off" required>
+            </mat-form-field>
+            <mat-form-field class="col-md-6">
+                <mat-label>Short Name</mat-label>
+                <input matInput [(ngModel)]="model.InventoryDeptShortName" name="InventoryDeptShortName" #invInventoryDeptShortName="ngModel" autocomplete="off" 
+                required
+             [disabled]="model.InventoryDeptId">
+            </mat-form-field> 
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="col-md-6">
+                <mat-checkbox [(ngModel)]="model.isActive" name="isActive" #invisActive="ngModel">Is Active</mat-checkbox>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <mat-form-field class="col-md-12">
+                <mat-label>Remarks</mat-label>
+                <textarea matInput [(ngModel)]="model.remarks" name="remarks" #invremarks="ngModel" autocomplete="off"></textarea>
+            </mat-form-field>  
+        </div> 
+    </div>
+    <div class="row">
+        <div class="form-group col-md-2">
+            <button type="submit" class="btn btn-primary">Save</button>
+            <input type="hidden" [(ngModel)]='model.InventoryDeptId' name="InventoryDeptId" #invInventoryDeptId="ngModel">
+        </div>
+        <div class="form-group col-md-2">
+            <button type="button" class="btn btn-danger" (click)="closeModal()">Close</button>
+        </div>
+    </div>
+</form>

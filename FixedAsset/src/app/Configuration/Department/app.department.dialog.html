@@ -1,0 +1,37 @@
+<form #DepartmentForm="ngForm" (ngSubmit)="onSubmit(DepartmentForm)">
+    <div class="row">
+        <div class="col-md-12">
+            <mat-form-field class="col-md-6">
+            <input matInput [(ngModel)]="model.departmentName" name="department" #deptName="ngModel" placeholder="Department" autocomplete="off" required>
+            </mat-form-field>   
+        
+            <mat-form-field class="col-md-6">
+            <input matInput  [(ngModel)]="model.shortName" name="shortName" #deptShortName="ngModel" placeholder="Short Name" autocomplete="off" required
+             [disabled]="model.departmentId">
+            </mat-form-field>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="col-md-6">
+            <mat-checkbox [(ngModel)]="model.isActive" name="IsActive" #deptIsActive="ngModel">Is Active</mat-checkbox>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <mat-form-field class="col-md-12">
+            <textarea matInput matInput [(ngModel)]="model.remarks" name="Remarks" #deptRemarks="ngModel" placeholder="Remarks" autocomplete="off"></textarea>
+            </mat-form-field>
+        </div>
+    </div>
+    <div class="row">
+         <div class="form-group col-md-2">
+             <button type="submit" class="btn btn-primary">Save</button>
+            <input type="hidden" [(ngModel)]='model.departmentId' name="DepartemntId">
+         </div>
+         <div class="form-group col-md-2">
+             <button type="button" class="btn btn-danger" (click)="closeModal()">Close</button>
+         </div>
+    </div>
+</form>

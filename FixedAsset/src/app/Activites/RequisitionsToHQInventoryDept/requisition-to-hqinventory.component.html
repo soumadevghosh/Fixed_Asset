@@ -1,0 +1,107 @@
+<div class="container-fluid">
+    <div class="row">
+        <h5 style="left: 40%;position:absolute;">Requisitions To HQ Inventory Department</h5>
+    </div>
+    <p>
+        
+        <!-- (click)="openDialog()" -->
+        <button type="button" style="width: auto;" class="btn btn-primary" (click)="openDialog()" >Add Manual Requisition</button>
+    </p> 
+    <div class="search-form-field">
+        <button (click)="checkout()" mat-raised-button [matBadge]="cartCount" matBadgeColor="warn"
+            style="width:150px;background-color: orange;color: white;">Checkout Cart Item{{ cartCount > 1 ? 's' : '' }}
+        </button>
+    </div>
+    <div style="margin-top: 3rem;">
+        <form [formGroup]=filterForm>
+            <mat-label>Filter By:</mat-label>
+            <mat-form-field class="col-sm-2" style="width:200px;">
+                <mat-label>Unit</mat-label>
+                <mat-select formControlName="unit">
+                    <mat-option *ngFor="let unit of model.units" [value]="unit.unitId">
+                        {{ unit.unitName }}
+                    </mat-option>
+                </mat-select>
+            </mat-form-field>
+            <mat-form-field class="col-sm-2" style="width:200px;">
+                <mat-label>From Date</mat-label>
+                <input matInput [matDatepicker]="fromDate" placeholder="MM/DD/YYYY" formControlName="fromDate"
+                    autocomplete="off">
+                <mat-datepicker-toggle matSuffix [for]="fromDate"></mat-datepicker-toggle>
+                <mat-datepicker #fromDate></mat-datepicker>
+            </mat-form-field>
+            <mat-form-field class="col-sm-2" style="width:200px;">
+                <mat-label>To Date</mat-label>
+                <input matInput [matDatepicker]="toDate" placeholder="MM/DD/YYYY" formControlName="toDate"
+                    autocomplete="off">
+                <mat-datepicker-toggle matSuffix [for]="toDate"></mat-datepicker-toggle>
+                <mat-datepicker #toDate></mat-datepicker>
+            </mat-form-field>
+            <button mat-raised-button color="warn" (click)="clearFilter()">Clear</button>
+            <button mat-raised-button style="float: right; width: 150px;" (click)="addToCart()" color="primary">Add To
+                Cart</button>
+        </form>
+    </div>
+    <div class="panel panel-default card-view ">
+        <div class="panel-body">  
+            <div class="table table-responsive">
+                <mat-table [dataSource]='dataSource' matSort>
+                    <ng-container matColumnDef="select">
+                        <mat-header-cell *matHeaderCellDef>
+                            <mat-checkbox (change)="$event ? masterToggle() : null"
+                                [checked]="selection.hasValue() && isAllSelected()"
+                                [indeterminate]="selection.hasValue() && !isAllSelected()">
+                            </mat-checkbox>
+                        </mat-header-cell>
+                        <mat-cell *matCellDef="let row">
+                            <mat-checkbox (click)="$event.stopPropagation()"
+                                (change)="$event ? selection.toggle(row) : null" [checked]="selection.isSelected(row)">
+                            </mat-checkbox>
+                        </mat-cell>
+                    </ng-container>
+                    <ng-container matColumnDef="SlNo">
+                        <mat-header-cell *matHeaderCellDef mat-sort-header>Serial No.</mat-header-cell>
+                        <mat-cell *matCellDef="let row; let i = index;">{{i+1}}</mat-cell>
+                    </ng-container>
+                    <ng-container matColumnDef="reqNo">
+                        <mat-header-cell *matHeaderCellDef mat-sort-header>Requisition No.</mat-header-cell>
+                        <mat-cell *matCellDef="let row">{{row.requisitionNo}}</mat-cell>
+                    </ng-container>
+                    <ng-container matColumnDef="unit">
+                        <mat-header-cell *matHeaderCellDef mat-sort-header>Unit Name</mat-header-cell>
+                        <mat-cell *matCellDef="let row">{{row.requisitionFromUnit}}</mat-cell>
+                    </ng-container>
+                    <ng-container matColumnDef="date">
+                        <mat-header-cell *matHeaderCellDef mat-sort-header>Forwarded On</mat-header-cell>
+                        <mat-cell *matCellDef="let row">{{row.forwardDate}}</mat-cell>
+                    </ng-container>
+                    <ng-container matColumnDef="qty">
+                        <mat-header-cell *matHeaderCellDef mat-sort-header>Quantity</mat-header-cell>
+                        <mat-cell *matCellDef="let row">{{row.qty}}</mat-cell>
+                    </ng-container>
+                    <ng-container matColumnDef="status">
+                        <mat-header-cell *matHeaderCellDef mat-sort-header>Status</mat-header-cell>
+                        <mat-cell *matCellDef="let row">{{row.requisitionStatus}}</mat-cell>
+                    </ng-container>
+                    <ng-container matColumnDef="loading">
+                        <mat-footer-cell *matFooterCellDef colspan="5">
+                            Loading Please Wait...
+                        </mat-footer-cell>
+                    </ng-container>
+                    <ng-container matColumnDef="noData">
+                        <mat-footer-cell *matFooterCellDef colspan="5">
+                            No Data Found
+                        </mat-footer-cell>
+                    </ng-container>
+                    <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+                    <mat-row *matRowDef="let row; columns:displayedColumns"></mat-row>
+                    <mat-footer-row *matFooterRowDef="['loading']" [ngClass]="{'gridFooter':dataSource!=null}">
+                    </mat-footer-row>
+                    <mat-footer-row *matFooterRowDef="['noData']"
+                        [ngClass]="{'gridFooter':!(dataSource!=null && dataSource.data.length==0)}"></mat-footer-row>
+                </mat-table>
+                <mat-paginator [pageSizeOptions]="[25,50,100]" [pageSize]="25" showFirstLastButtons></mat-paginator>
+            </div>
+        </div>
+    </div>
+</div>

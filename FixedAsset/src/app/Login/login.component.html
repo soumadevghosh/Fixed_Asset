@@ -1,0 +1,31 @@
+
+<form #LoginForm="ngForm" (ngSubmit)="onSubmit(LoginForm)">
+
+    <div class="container mt-5">
+        <div class="text-center">
+            <h4>Login To Fixed Asset</h4>
+        </div>
+        <br>
+        <div class="row">
+            <div class="col-md-4 offset-sm-4">
+                <div class="form-group">
+                    <input type="text" class="form-control" placeholder="Email Id" name="EmailId" #logEmail="ngModel" [(ngModel)]="model.EmailId" />
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-4 offset-sm-4">
+                <div class="form-group">
+                    <input type="password" class="form-control" placeholder="Password" name="Password" #logPassword="ngModel" [(ngModel)]="model.Password" />
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-4 offset-sm-4">
+                <div class="form-group">
+                    <button class="btn btn-primary">Login</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>

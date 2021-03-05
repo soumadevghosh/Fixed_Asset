@@ -1,0 +1,125 @@
+<div class="container-fluid">
+    <h5 style="left: 45%;position:absolute;">Requisition</h5>
+    <div class="panel panel-default card-view ">
+        <div class="panel-body">
+            <p>
+                <!-- (click)="openDialog()" -->
+                <button type="button" class="btn btn-primary" (click)="openDialog()" >Add New</button>
+            </p> 
+            <mat-form-field class="search-form-field">
+                <input matInput [(ngModel)]="searchKey" placeholder="Search" autocomplete="off" (keyup)="applyFilter()">
+            </mat-form-field>          
+            <!-- w-auto -->
+            <div class="table table-responsive">
+                <mat-table [dataSource]="datasource" matSort >
+
+                    <ng-container matColumnDef="position">
+                        <mat-header-cell *matHeaderCellDef> Sl No. </mat-header-cell>
+                        <mat-cell *matCellDef="let row let i=index;"> 
+                        {{ (paginatorRef.pageIndex * paginatorRef.pageSize) + (i + 1) }}
+                    </mat-cell>
+                    </ng-container>
+
+                    <ng-container  matColumnDef="RequisitionNo">
+                        <mat-header-cell *matHeaderCellDef mat-sort-header>Requisition No</mat-header-cell>
+                        <mat-cell *matCellDef="let row">{{row.RequisitionNo}}</mat-cell>
+                    </ng-container>
+                    
+                    <ng-container  matColumnDef="RequisitionDate">
+                        <mat-header-cell *matHeaderCellDef mat-sort-header>Date</mat-header-cell>
+                        <mat-cell *matCellDef="let row">{{row.RequisitionDate}}</mat-cell>
+                    </ng-container>
+                    <ng-container  matColumnDef="InventoryDeptName">
+                        <mat-header-cell *matHeaderCellDef mat-sort-header>Inventory Dept</mat-header-cell>
+                        <mat-cell *matCellDef="let row">{{row.InventoryDeptName}}</mat-cell>
+                    </ng-container>
+                    <ng-container  matColumnDef="ItemName">
+                        <mat-header-cell *matHeaderCellDef mat-sort-header>Item Name</mat-header-cell>
+                        <mat-cell *matCellDef="let row">{{row.itemName}}</mat-cell>
+                    </ng-container>
+                    
+                    <ng-container  matColumnDef="RequisitionStatus">
+                        <mat-header-cell *matHeaderCellDef mat-sort-header>Requisition Status</mat-header-cell>
+                        <mat-cell *matCellDef="let row">{{row.RequisitionStatus}}</mat-cell>
+                    </ng-container>
+                    <!-- <ng-container  matColumnDef="BranchName">
+                        <mat-header-cell *matHeaderCellDef mat-sort-header>Branch Name</mat-header-cell>
+                        <mat-cell *matCellDef="let row">{{row.unitName}}</mat-cell>
+                    </ng-container> -->
+                    <!-- <ng-container  matColumnDef="RequisitionMadeByName">
+                        <mat-header-cell *matHeaderCellDef mat-sort-header>Made By</mat-header-cell>
+                        <mat-cell *matCellDef="let row">{{row.RequisitionMadeByName}}</mat-cell>
+                    </ng-container> -->
+                    <!-- <ng-container  matColumnDef="FunctionalDeptName">
+                        <mat-header-cell *matHeaderCellDef mat-sort-header>Functional Dept</mat-header-cell>
+                        <mat-cell *matCellDef="let row">{{row.departmentName}}</mat-cell>
+                    </ng-container>
+                    <ng-container  matColumnDef="TypeOfRequIdName">
+                        <mat-header-cell *matHeaderCellDef mat-sort-header>Requisition Type</mat-header-cell>
+                        <mat-cell *matCellDef="let row">{{row.RequistionTypeName}}</mat-cell>
+                    </ng-container> -->
+                    
+                    <!-- <ng-container  matColumnDef="ItemCategoryName">
+                        <mat-header-cell *matHeaderCellDef mat-sort-header>Item Catagory</mat-header-cell>
+                        <mat-cell *matCellDef="let row">{{row.Itemcategory}}</mat-cell>
+                    </ng-container>
+                    
+                   
+                    <ng-container  matColumnDef="Quantity">
+                        <mat-header-cell *matHeaderCellDef mat-sort-header>Quantity</mat-header-cell>
+                        <mat-cell *matCellDef="let row">{{row.Quantity}}</mat-cell>
+                    </ng-container>
+                    <ng-container  matColumnDef="UnitPrice">
+                        <mat-header-cell *matHeaderCellDef mat-sort-header>Unit Price</mat-header-cell>
+                        <mat-cell *matCellDef="let row">{{row.UnitPrice}}</mat-cell>
+                    </ng-container>
+                    <ng-container  matColumnDef="Gst">
+                        <mat-header-cell *matHeaderCellDef mat-sort-header>GST</mat-header-cell>
+                        <mat-cell *matCellDef="let row">{{row.GST}}</mat-cell>
+                    </ng-container>
+                    <ng-container  matColumnDef="OtherExpences">
+                        <mat-header-cell *matHeaderCellDef mat-sort-header>Other Expences</mat-header-cell>
+                        <mat-cell *matCellDef="let row">{{row.OtherExpences}}</mat-cell>
+                    </ng-container>
+                    <ng-container  matColumnDef="TotalBudget">
+                        <mat-header-cell *matHeaderCellDef mat-sort-header>Total Budget</mat-header-cell>
+                        <mat-cell *matCellDef="let row">{{row.TotalBudget}}</mat-cell>
+                    </ng-container>
+                    <ng-container  matColumnDef="addedOn">
+                        <mat-header-cell *matHeaderCellDef mat-sort-header>Created Date</mat-header-cell>
+                        <mat-cell *matCellDef="let row">{{row.addedOn}}</mat-cell>
+                    </ng-container>
+                    <ng-container  matColumnDef="status">
+                        <mat-header-cell *matHeaderCellDef mat-sort-header>Status</mat-header-cell>
+                        <mat-cell *matCellDef="let row" [ngClass]="row.status=='Inactive' ? 'cellRedColor' : 'cellGreenColor'">{{row.status}}</mat-cell>
+                    </ng-container> -->
+                    <ng-container matColumnDef="Action">
+                        <mat-header-cell *matHeaderCellDef>Action</mat-header-cell>
+                        <mat-cell *matCellDef="let row" class="grid-button-row">  
+                            <!-- (click)='onEdit(row)' -->
+                            <button mat-raised-button color="primary" (click)='onEdit(row)' >Edit</button>
+                            <button mat-raised-button color="primary" >Confirm</button>
+                            <!-- <button mat-raised-button color="warn" (click)='onDelete(row)'>Delete</button> -->
+                            <!-- (click)='onDelete(row)' -->
+                        </mat-cell>
+                    </ng-container>
+                    <ng-container matColumnDef="loading">
+                        <mat-footer-cell *matFooterCellDef colspan="5">
+                           Loading Please Wait...
+                        </mat-footer-cell>
+                     </ng-container>
+                     <ng-container matColumnDef="noData">
+                        <mat-footer-cell *matFooterCellDef colspan="5">
+                           No Data Found
+                        </mat-footer-cell>
+                     </ng-container>
+                    <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+                    <mat-row *matRowDef="let row; columns:displayedColumns"></mat-row>
+                    <mat-footer-row *matFooterRowDef="['loading']" [ngClass]="{'gridFooter':datasource!=null}"></mat-footer-row>
+                    <mat-footer-row *matFooterRowDef="['noData']" [ngClass]="{'gridFooter':!(datasource!=null && datasource.data.length==0)}"></mat-footer-row>
+                </mat-table>
+                <mat-paginator [pageSizeOptions]="[10,25,50,100]" [pageSize]="10" showFirstLastButtons #paginatorRef></mat-paginator>
+            </div>
+        </div>
+    </div>
+</div>

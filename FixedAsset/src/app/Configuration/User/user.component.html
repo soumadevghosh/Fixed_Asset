@@ -1,0 +1,49 @@
+<mat-tab-group mat-align-tabs="start" animationDuration="1000ms">
+    <mat-tab label="Functional Department">
+        <ng-template matTabContent>
+            <div class="renderBody">
+                <app-unit-functional-dept></app-unit-functional-dept>
+            </div>
+        </ng-template>
+    </mat-tab>
+    <mat-tab label="Inventory Department">
+        <ng-template matTabContent>
+            <div class="renderBody">
+                <app-unit-inventory-dept></app-unit-inventory-dept>
+            </div>
+        </ng-template>
+    </mat-tab>
+    <mat-tab label="Procurement Department">
+        <ng-template matTabContent>
+            <div class="renderBody">
+                <procurement-executive></procurement-executive>
+            </div>
+        </ng-template>
+    </mat-tab>
+    <mat-tab label="Accounts Department">
+        <ng-template matTabContent>
+            <div class="renderBody">
+                <app-accounts-dept-list></app-accounts-dept-list>
+            </div>
+        </ng-template>
+    </mat-tab>
+    <mat-tab label="Center in-charge">
+        <ng-template matTabContent>
+            <div class="renderBody">
+                <app-center-in-charge-list></app-center-in-charge-list>
+            </div>
+        </ng-template>
+    </mat-tab>
+</mat-tab-group>
+
+
+<!-- <nav mat-tab-nav-bar mat-align-tabs="start">
+    <a mat-tab-link *ngFor="let link of navLinks" [routerLink]="link.path"
+    (click)="activeLink = link.path"
+    [active]="activeLink == link.path">
+        {{link.label}}
+    </a>
+</nav>
+<div class="renderBody">
+    <router-outlet></router-outlet>
+</div> -->

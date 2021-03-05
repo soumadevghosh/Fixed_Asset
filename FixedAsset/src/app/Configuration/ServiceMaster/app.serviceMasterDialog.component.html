@@ -1,0 +1,75 @@
+    <form [formGroup]=ServiceMasterForm (ngSubmit)=onSubmit(ServiceMasterForm) autocomplete="off">
+    <div class="row">
+        <div class="col-md-12">
+
+            <mat-form-field class="col-md-6">
+                <mat-label>Inventory Department Name</mat-label>
+                <mat-select formControlName="inventoryDeptName" name="InventoryDeptId"
+                id="invDepartment" (selectionChange)="BindItemCategory()">
+                <mat-option *ngFor="let invdept of InventoryDepartmentList" 
+                [value]="invdept.InventoryDeptId">
+                    {{ invdept.InventoryDeptName }}
+                </mat-option>
+            </mat-select>
+            <mat-error *ngIf="ServiceMasterForm.controls['inventoryDeptName'].errors?.required">Select an Inventory Dept.</mat-error>
+            </mat-form-field>
+
+                <mat-form-field class="col-md-6">
+                    <mat-label>Item Category Name</mat-label>
+                    <mat-select formControlName="itemCategoryName" name="ItemCategoryId"
+                        id="itemCategoryId" (selectionChange)="BindItemGroup()">
+                        <mat-option *ngFor="let category of ItemCategoryList"
+                            [value]="category.ItemCategoryId">
+                            {{ category.Itemcategory }}
+                        </mat-option>
+                    </mat-select>
+                    <mat-error *ngIf="ServiceMasterForm.controls['itemCategoryName'].errors?.required">Select an Item Category</mat-error>
+                </mat-form-field>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-12">
+                <mat-form-field class="col-md-6">
+                    <mat-label>Item Group Name</mat-label>
+                    <mat-select formControlName="itemGroupName" name="ItemGroupId" 
+                    id="itemGroupId" >
+                        <mat-option *ngFor="let group of ItemGroupList" [value]="group.ItemGroupId">
+                            {{ group.ItemGroupName }}
+                        </mat-option>
+                    </mat-select>
+                    <mat-error *ngIf="ServiceMasterForm.controls['itemGroupName'].errors?.required">Select an Item Group</mat-error>
+                </mat-form-field>
+
+                <mat-form-field class="col-md-6">
+                    <mat-label>Service Item Name</mat-label>
+                    <input matInput formControlName="ServiceItemName" name="ServiceItemName" id="ServiceItemName">
+                    <mat-error *ngIf="ServiceMasterForm.controls['ServiceItemName'].errors?.required">Service Item Name is Required</mat-error>
+                    <mat-error *ngIf="ServiceMasterForm.controls['ServiceItemName'].errors?.pattern">Service Item Name is Invalid</mat-error>
+                </mat-form-field>
+
+        </div>
+    </div>
+
+
+    <div class="row">
+        <div class="col-md-12">
+            <div class="col-md-6">
+                <mat-checkbox formControlName="isActive" name="isActive" id="isActive">Is Active</mat-checkbox>
+            </div>
+        </div>
+    </div>
+   
+    <div class="row">
+        <div class="form-group col-md-2">
+            <button type="submit" class="btn btn-primary">Save</button>
+            <input type="hidden" formControlname='ServiceMasterId' name="ServiceMasterId" >
+        
+        </div>
+        
+        <div class="form-group col-md-2">
+            <button type="button" class="btn btn-danger" (click)="closeModal()">Close</button>
+            
+        </div>
+    </div>
+</form>

@@ -1,0 +1,64 @@
+<form #ItemGroupForm="ngForm" (ngSubmit)="onSubmit(ItemGroupForm)">
+        <div class="row">
+            <div class="col-md-12">
+                <mat-form-field class="col-md-6">
+                    <mat-label>Inventory Department</mat-label>
+                    <mat-select [(ngModel)]="model.InventoryDeptId" name="InventoryDeptId" #iGroupInventoryDept="ngModel" (selectionChange)="BindItemCategory()" required>
+                      <mat-option *ngFor="let inventory of model.InventoryDepartmentList" [value]="inventory.InventoryDeptId">
+                        {{ inventory.InventoryDeptName }}
+                      </mat-option>
+                    </mat-select>
+                    <mat-error *ngIf="iGroupInventoryDept.errors?.required">Select an Inventory Dept.</mat-error>
+                </mat-form-field>
+                <mat-form-field class="col-md-6">
+                    <mat-label>Item Category</mat-label>
+                    <mat-select [(ngModel)]="model.ItemCategoryId" name="ItemCategoryId" #iGroupItemCategory="ngModel" required>
+                      <mat-option *ngFor="let category of model.ItemCategoryList" [value]="category.ItemCategoryId">
+                        {{ category.Itemcategory }}
+                      </mat-option>
+                    </mat-select>
+                    <mat-error *ngIf="iGroupItemCategory.errors?.required">Select an Item Category</mat-error>
+                </mat-form-field>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <mat-form-field class="col-md-6">
+                    <mat-label>Item Group</mat-label>
+                    <input matInput [(ngModel)]="model.ItemGroupName" name="ItemGroupName" #iGroupItemGroupName="ngModel" autocomplete="off" pattern="^[a-zA-Z ]*$" required>
+                    <mat-error *ngIf="iGroupItemGroupName.errors?.required">Item Group name is required</mat-error>
+                    <mat-error *ngIf="iGroupItemGroupName.errors?.pattern">Item Group name is invalid</mat-error>
+                </mat-form-field>   
+                <div class="col-md-6">
+                    <mat-checkbox [(ngModel)]="model.MaintenanceSchedule" name="MaintenanceSchedule" #iGroupMaintenanceSchedule="ngModel">Maintenance Schedule</mat-checkbox>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="col-md-6">
+                    <mat-checkbox [(ngModel)]="model.CalibrationSchedule" name="CalibrationSchedule" #iGroupCalibrationSchedule="ngModel">Calibration Schedule</mat-checkbox>
+                </div>
+                <div class="col-md-6">
+                    <mat-checkbox [(ngModel)]="model.isActive" name="isActive" #iGroupIsActive="ngModel">Is Active</mat-checkbox>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <mat-form-field class="col-md-12">
+                    <mat-label>Remarks</mat-label>
+                    <textarea matInput [(ngModel)]="model.remarks" name="remarks" #iGroupRemarks="ngModel" autocomplete="off"></textarea>
+                </mat-form-field>  
+            </div> 
+        </div>
+        <div class="row">
+            <div class="form-group col-md-2">
+                <button type="submit" class="btn btn-primary">Save</button>
+                <input type="hidden" [(ngModel)]='model.ItemGroupId' name="ItemGroupId" #iGroupItemGroupId="ngModel">
+            </div>
+            <div class="form-group col-md-2">
+                <button type="button" class="btn btn-danger" (click)="closeModal()">Close</button>
+            </div>
+        </div>
+</form>

@@ -1,0 +1,138 @@
+<div class="container-fluid">
+    <div class="row">
+        <h5 style="left: 40%;position:absolute;">Requisitions To Procurement Department</h5>
+    </div>
+    <div class="search-form-field">
+        <button (click)="checkout()" mat-raised-button [matBadge]="cartCount" matBadgeColor="warn"
+            style="width:150px;background-color: orange;color: white;">Checkout Cart Item{{ cartCount > 1 ? 's' : '' }}
+        </button>
+    </div>
+    <div style="margin-top: 3rem;">
+        <form [formGroup]=filterForm>
+            <mat-label>Filter By:</mat-label>
+            <mat-form-field class="col-sm-2" style="width:200px;">
+                <mat-label>HQ Inventory Department</mat-label>
+                <mat-select formControlName="invDept">
+                    <mat-option *ngFor="let unit of model.inventoryDeptList" [value]="unit.InventoryDeptId">
+                        {{ unit.InventoryDeptName }}
+                    </mat-option>
+                </mat-select>
+            </mat-form-field>
+            <mat-form-field class="col-sm-2" style="width:200px;">
+                <mat-label>From Date</mat-label>
+                <input matInput [matDatepicker]="fromDate" placeholder="MM/DD/YYYY" formControlName="fromDate"
+                    autocomplete="off">
+                <mat-datepicker-toggle matSuffix [for]="fromDate"></mat-datepicker-toggle>
+                <mat-datepicker #fromDate></mat-datepicker>
+            </mat-form-field>
+            <mat-form-field class="col-sm-2" style="width:200px;">
+                <mat-label>To Date</mat-label>
+                <input matInput [matDatepicker]="toDate" placeholder="MM/DD/YYYY" formControlName="toDate"
+                    autocomplete="off">
+                <mat-datepicker-toggle matSuffix [for]="toDate"></mat-datepicker-toggle>
+                <mat-datepicker #toDate></mat-datepicker>
+            </mat-form-field>
+            <button mat-raised-button color="warn" (click)="clearFilter()">Clear</button>
+        </form>
+    </div>
+    <div class="panel panel-default card-view ">
+        <div class="panel-body">
+            <div class="table table-responsive">
+                <table mat-table [dataSource]='dataSource' multiTemplateDataRows matSort>
+                    <ng-container matColumnDef="reqNo">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header>Requisition No.</th>
+                        <td mat-cell *matCellDef="let element">{{element.requisitionNo}}</td>
+                    </ng-container>
+                    <ng-container matColumnDef="unit">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header>Unit Name</th>
+                        <td mat-cell *matCellDef="let element">{{element.requisitionFromUnit}}</td>
+                    </ng-container>
+                    <ng-container matColumnDef="invDept">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header>HQ Inventory Dept</th>
+                        <td mat-cell *matCellDef="let element">{{element.inventoryDept}}</td>
+                    </ng-container>
+                    <ng-container matColumnDef="date">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header>Forwarded On</th>
+                        <td mat-cell *matCellDef="let element">{{element.forwardDate}}</td>
+                    </ng-container>
+                    <ng-container matColumnDef="qty">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header>Quantity</th>
+                        <td mat-cell *matCellDef="let element">{{element.qty}}</td>
+                    </ng-container>
+                    <ng-container matColumnDef="status">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header>Status</th>
+                        <td mat-cell *matCellDef="let element">{{element.requisitionStatus}}</td>
+                    </ng-container>
+                    <ng-container matColumnDef="loading">
+                        <th mat-footer-cell *matFooterCellDef colspan="5">
+                            Loading Please Wait...
+                        </th>
+                    </ng-container>
+                    <ng-container matColumnDef="noData">
+                        <th mat-footer-cell *matFooterCellDef colspan="5">
+                            No Data Found
+                        </th>
+                    </ng-container>
+                    <ng-container matColumnDef="expandedDetail">
+                        <td mat-cell *matCellDef="let element" [attr.colspan]="displayedColumns.length">
+                            <div class="example-element-detail"
+                                [@detailExpand]="element == expandedElement ? 'expanded' : 'collapsed'">
+                                <table mat-table [dataSource]='detailSource' class="mat-elevation-z8" id="expanded">
+                                    <ng-container matColumnDef="SlNo">
+                                        <th mat-header-cell *matHeaderCellDef>Serial No.</th>
+                                        <td mat-cell *matCellDef="let child;let i = index;">{{i+1}}</td>
+                                    </ng-container>
+                                    <ng-container matColumnDef="reqNo">
+                                        <th mat-header-cell *matHeaderCellDef>Requisition No.</th>
+                                        <td mat-cell *matCellDef="let child">{{child.requisitionNo}}</td>
+                                    </ng-container>
+                                    <ng-container matColumnDef="unit">
+                                        <th mat-header-cell *matHeaderCellDef>Unit Name</th>
+                                        <td mat-cell *matCellDef="let child">{{child.requisitionFromUnit}}</td>
+                                    </ng-container>
+                                    <ng-container matColumnDef="itemName">
+                                        <th mat-header-cell *matHeaderCellDef>Item</th>
+                                        <td mat-cell *matCellDef="let child">{{child.itemName}}</td>
+                                    </ng-container>
+                                    <ng-container matColumnDef="reqQty">
+                                        <th mat-header-cell *matHeaderCellDef>Requisition Qty(pcs)</th>
+                                        <td mat-cell *matCellDef="let child">{{child.approvedQty}}</td>
+                                    </ng-container>
+                                    <ng-container matColumnDef="apprByHQQty">
+                                        <th mat-header-cell *matHeaderCellDef>Approved Qty(pcs)</th>
+                                        <td mat-cell *matCellDef="let child">
+                                            <mat-form-field appearance="outline" style="width: 100px;"><input matInput
+                                                    [value]='child.approvedByHQInventory'
+                                                    [(ngModel)]="child.approvedByHQInventory" type="number"
+                                                    [max]='child.approvedQty' min="1" /></mat-form-field>
+                                        </td>
+                                    </ng-container>
+                                    <ng-container matColumnDef="action">
+                                        <th mat-header-cell *matHeaderCellDef>Action</th>
+                                        <td mat-cell *matCellDef="let child" class="grid-button-row">
+                                            <button mat-raised-button color="primary" (click)="order(child)">Order</button>
+                                        </td>
+                                    </ng-container>
+                                    <tr mat-header-row *matHeaderRowDef="detailColumns"></tr>
+                                    <tr mat-row *matRowDef="let child; columns:detailColumns"></tr>
+                                </table>
+                            </div>
+                        </td>
+                    </ng-container>
+                    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                    <tr mat-row *matRowDef="let element; columns: displayedColumns;" class="example-element-row"
+                        [class.example-expanded-row]="expandedElement === element" (click)="onRowClick(element)"
+                        matTooltip="Click to see in detail" matTooltipPosition="above" matTooltipShowDelay="1000">
+                    </tr>
+                    <tr mat-row *matRowDef="let row; columns: ['expandedDetail']" class="example-detail-row"></tr>
+                    <!-- //added  -->
+                    <tr mat-footer-row *matFooterRowDef="['loading']" [ngClass]="{'gridFooter':dataSource!=null}">
+                    </tr>
+                    <tr mat-footer-row *matFooterRowDef="['noData']"
+                        [ngClass]="{'gridFooter':!(dataSource!=null && dataSource.data.length==0)}"></tr>
+                </table>
+                <mat-paginator [pageSizeOptions]="[25,50,100]" [pageSize]="25" showFirstLastButtons></mat-paginator>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,71 @@
+<div class="container-fluid">
+    <h5 style="left: 45%;position:absolute;">Employee Master</h5>
+    <div class="panel panel-default card-view ">
+        <div class="panel-body">
+            <p>
+                <button type="button" *ngIf="!model.isSync" class="btn btn-primary" (click)="openDialog()">Add New</button>
+            </p> 
+            <mat-form-field class="search-form-field">
+                <input matInput [(ngModel)]="searchKey" placeholder="Search" autocomplete="off" (keyup)="applyFilter()">
+            </mat-form-field>          
+            <div class="table table-responsive">
+                <mat-table [dataSource]="datasource" matSort >
+                    <ng-container  matColumnDef="SlNo">
+                        <mat-header-cell *matHeaderCellDef mat-sort-header>Serial No.</mat-header-cell>
+                        <mat-cell *matCellDef="let emp; let i = index;">{{i+1}}</mat-cell>
+                    </ng-container>
+                    <ng-container  matColumnDef="EmployeeId">
+                        <mat-header-cell *matHeaderCellDef mat-sort-header>Employee ID</mat-header-cell>
+                        <mat-cell *matCellDef="let emp">{{emp.EmployeeId}}</mat-cell>
+                    </ng-container>
+                    <ng-container  matColumnDef="EmployeeName">
+                        <mat-header-cell *matHeaderCellDef mat-sort-header>Name</mat-header-cell>
+                        <mat-cell *matCellDef="let emp">{{emp.EmployeeName}}</mat-cell>
+                    </ng-container>
+                    <ng-container  matColumnDef="Age">
+                        <mat-header-cell *matHeaderCellDef mat-sort-header>Age</mat-header-cell>
+                        <mat-cell *matCellDef="let emp">{{emp.Age}}</mat-cell>
+                    </ng-container>
+                    <ng-container  matColumnDef="Department">
+                        <mat-header-cell *matHeaderCellDef mat-sort-header>Department</mat-header-cell>
+                        <mat-cell *matCellDef="let emp">{{emp.Department}}</mat-cell>
+                    </ng-container>
+                    <ng-container  matColumnDef="Designation">
+                        <mat-header-cell *matHeaderCellDef mat-sort-header>Designation</mat-header-cell>
+                        <mat-cell *matCellDef="let emp">{{emp.Designation}}</mat-cell>
+                    </ng-container>
+                    <ng-container  matColumnDef="addedOn">
+                        <mat-header-cell *matHeaderCellDef mat-sort-header>Created Date</mat-header-cell>
+                        <mat-cell *matCellDef="let emp">{{emp.addedOn}}</mat-cell>
+                    </ng-container>
+                    <ng-container  matColumnDef="status">
+                        <mat-header-cell *matHeaderCellDef mat-sort-header>Status</mat-header-cell>
+                        <mat-cell *matCellDef="let emp" [ngClass]="emp.status=='Inactive' ? 'cellRedColor' : 'cellGreenColor'">{{emp.status}}</mat-cell>
+                    </ng-container>
+                    <ng-container matColumnDef="Action">
+                        <mat-header-cell *matHeaderCellDef>Action</mat-header-cell>
+                        <mat-cell *matCellDef="let emp" class="grid-button-row">  
+                            <button mat-raised-button color="primary" (click)='onEdit(emp)'>Edit</button>
+                            <button mat-raised-button color="warn" (click)='onDelete(emp)'>Delete</button>
+                        </mat-cell>
+                    </ng-container>
+                    <ng-container matColumnDef="loading">
+                        <mat-footer-cell *matFooterCellDef colspan="5">
+                           Loading Please Wait...
+                        </mat-footer-cell>
+                     </ng-container>
+                     <ng-container matColumnDef="noData">
+                        <mat-footer-cell *matFooterCellDef colspan="5">
+                           No Data Found
+                        </mat-footer-cell>
+                     </ng-container>
+                    <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+                    <mat-row *matRowDef="let row; columns:displayedColumns"></mat-row>
+                    <mat-footer-row *matFooterRowDef="['loading']" [ngClass]="{'gridFooter':datasource!=null}"></mat-footer-row>
+                    <mat-footer-row *matFooterRowDef="['noData']" [ngClass]="{'gridFooter':!(datasource!=null && datasource.data.length==0)}"></mat-footer-row>
+                </mat-table>
+                <mat-paginator [pageSizeOptions]="[25,50,100]" [pageSize]="25" showFirstLastButtons></mat-paginator>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,68 @@
+
+<form [formGroup]=DeptWiseMenuForm  autocomplete="off" >
+    <div  style="text-align: center; justify-content: center;"><h5 >Department Wise Menu Master</h5></div>
+    <!-- <div class="row"><div class="col-md-12"></div></div> -->
+    <div class="row" style="padding-top: 50px; padding-left:50px; padding-right:50px;">
+        <!-- <div class="col-md-12"> -->
+            <!-- style="padding-top: 50px; padding-left:50px; padding-right:50px;" -->
+            
+            <mat-form-field class="col-md-6" style="align-items: center; align-content: center;">
+                <mat-label>Department Name</mat-label>
+                <mat-select formControlName="DeptName" (selectionChange)="BindMenu()">
+                <mat-option *ngFor="let dept of model.DeptList" 
+                [value]="dept.DeptId">
+                    {{ dept.DeptName }}
+                </mat-option>
+                </mat-select>
+                <mat-error *ngIf="DeptWiseMenuForm.controls['DeptName'].errors?.required">Select an Dept.</mat-error>
+            </mat-form-field>
+       <!-- // </div> -->
+
+
+       <!-- <div class="row">
+        <div class="col-md-12"> -->
+            <!-- padding-left: 20px; -->
+                <div class="col-md-6" style="border: 1px solid black; padding: 0px 0px !important;">
+                <div style="padding: 5px 5px 5px 5px; background-color:#007BFF; color: white;"><mat-label>Menu Name</mat-label></div>
+                <mat-tree [dataSource]="dataSource" [treeControl]="treeControl">
+                    <!-- This is the tree node template for leaf nodes -->
+                    <mat-tree-node *matTreeNodeDef="let node" matTreeNodePadding>
+                      <!-- use a disabled button to provide padding for tree leaf -->
+                      <button mat-icon-button disabled></button>
+                      <mat-checkbox class="checklist-leaf-node"
+                                  [checked]="checklistSelection.isSelected(node)"
+                                  (change)="todoLeafItemSelectionToggle(node)">
+                      {{node.name}}
+                    </mat-checkbox>
+                    </mat-tree-node>
+                    <!-- This is the tree node template for expandable nodes -->
+                    <mat-tree-node *matTreeNodeDef="let node;when: hasChild" matTreeNodePadding>
+                      <button mat-icon-button matTreeNodeToggle
+                              [attr.aria-label]="'toggle ' + node.name">
+                        <mat-icon class="mat-icon-rtl-mirror" >
+                          {{treeControl.isExpanded(node) ? 'expand_more' : 'chevron_right'}}
+                        </mat-icon>
+                      </button>
+                      <mat-checkbox [checked]="descendantsAllSelected(node)"
+                                  [indeterminate]="descendantsPartiallySelected(node)"
+                                  (change)="todoItemSelectionToggle(node)">
+                      {{node.name}}
+                    </mat-checkbox>
+                    </mat-tree-node>
+                </mat-tree>
+            </div>
+<!-- </div>
+    </div> -->
+
+
+    </div>
+
+    <div class="row"></div>
+
+    
+    <div class="row" style="padding-left: 50px; padding-bottom: 50px;">
+        <!-- <div class="form-group col-md-2"> -->
+            <button type="button" class="btn btn-primary" (click)=onSubmit(DeptWiseMenuForm)>Save</button>
+        <!-- </div> -->
+    </div>
+</form>

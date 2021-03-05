@@ -1,0 +1,276 @@
+<button class="close" mat-icon-button [mat-dialog-close]="true">&times;</button>
+<div mat-dialog-title>{{Title}}</div>
+<div mat-dialog-content>
+    <form [formGroup]="VendorForm" (ngSubmit)="onSubmit(VendorForm)" autocomplete="off">
+        <fieldset>
+            <legend>Basic info</legend>
+            <div class="row">
+                <div class="col-md-12">
+                    <mat-form-field class="col-md-6">
+                        <mat-label>Vendor Name</mat-label>
+                        <input matInput formControlName="vendorName" required />
+                        <mat-error *ngIf="VendorForm.controls['vendorName'].errors?.required">Vendor Name is required
+                        </mat-error>
+                        <mat-error *ngIf="VendorForm.controls['vendorName'].errors?.pattern">Vendor Name is invalid
+                        </mat-error>
+                    </mat-form-field>
+                    <mat-form-field class="col-md-6">
+                        <mat-label>Ventor Type</mat-label>
+                        <mat-select formControlName="vendorType" required>
+                            <mat-option *ngFor="let type of VendorTypes" [value]="type.VendorTypeId">
+                                {{ type.VendorType }}
+                            </mat-option>
+                        </mat-select>
+                        <mat-error *ngIf="VendorForm.controls['vendorType'].errors?.required">Select a Vendor Type
+                        </mat-error>
+                    </mat-form-field>
+                </div>
+            </div>
+            <div class="row">
+                <div class="column" formGroupName="correspondingAddressDetail" style="float: left;">
+                    <div class="col-md-12">
+                        <fieldset>
+                            <legend>Corresponding Address</legend>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div style="min-height:32px;"></div>
+                                    <mat-form-field class="col-md-6">
+                                        <mat-label>Corresponding Address</mat-label>
+                                        <input matInput formControlName="correspondingAddress" required />
+                                        <mat-error
+                                            *ngIf="CorrespondingAddressDetail.controls['correspondingAddress'].errors?.required">
+                                            Address is required</mat-error>
+                                    </mat-form-field>
+                                    <mat-form-field class="col-md-6">
+                                        <mat-label>Pincode</mat-label>
+                                        <input matInput formControlName="correspondingPincode" required />
+                                        <mat-error
+                                            *ngIf="CorrespondingAddressDetail.controls['correspondingPincode'].errors?.required">
+                                            Pincode is required</mat-error>
+                                        <mat-error
+                                            *ngIf="CorrespondingAddressDetail.controls['correspondingPincode'].errors?.pattern">
+                                            Pincode is invalid</mat-error>
+                                    </mat-form-field>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <mat-form-field class="col-md-6">
+                                        <mat-label>Post office</mat-label>
+                                        <input matInput formControlName="correspondingPostoffice" required />
+                                        <mat-error
+                                            *ngIf="CorrespondingAddressDetail.controls['correspondingPostoffice'].errors?.required">
+                                            Post office is required</mat-error>
+                                    </mat-form-field>
+                                    <mat-form-field class="col-md-6">
+                                        <mat-label>City</mat-label>
+                                        <input matInput formControlName="correspondingCity" required />
+                                        <mat-error
+                                            *ngIf="CorrespondingAddressDetail.controls['correspondingCity'].errors?.required">
+                                            City is required</mat-error>
+                                    </mat-form-field>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <mat-form-field class="col-md-6">
+                                        <mat-label>District</mat-label>
+                                        <input matInput formControlName="correspondingDistrict" required />
+                                        <mat-error
+                                            *ngIf="CorrespondingAddressDetail.controls['correspondingDistrict'].errors?.required">
+                                            District is required</mat-error>
+                                    </mat-form-field>
+                                    <mat-form-field class="col-md-6">
+                                        <mat-label>State</mat-label>
+                                        <input matInput formControlName="correspondingState" required />
+                                        <mat-error
+                                            *ngIf="CorrespondingAddressDetail.controls['correspondingState'].errors?.required">
+                                            State is required</mat-error>
+                                        <mat-error
+                                            *ngIf="CorrespondingAddressDetail.controls['correspondingState'].errors?.pattern">
+                                            State is invalid</mat-error>
+                                    </mat-form-field>
+                                </div>
+                            </div>
+                        </fieldset>
+                    </div>
+                </div>
+
+                <div class="column" formGroupName="billingAddressDetail" style="float: right;">
+                    <div class="col-md-12">
+                        <fieldset>
+                            <legend>Billing Address</legend>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div>
+                                        <mat-checkbox formControlName="sameAddress">Same as Corresponding address
+                                        </mat-checkbox>
+                                    </div>
+                                    <mat-form-field class="col-md-6">
+                                        <mat-label>Billing Address</mat-label>
+                                        <input matInput formControlName="billingAddress" required />
+                                        <mat-error
+                                            *ngIf="billingAddressDetail.controls['billingAddress'].errors?.required">
+                                            Address is required</mat-error>
+                                    </mat-form-field>
+                                    <mat-form-field class="col-md-6">
+                                        <mat-label>Pincode</mat-label>
+                                        <input matInput formControlName="billingPincode" required />
+                                        <mat-error
+                                            *ngIf="billingAddressDetail.controls['billingPincode'].errors?.required">
+                                            Pincode is required</mat-error>
+                                        <mat-error
+                                            *ngIf="billingAddressDetail.controls['billingPincode'].errors?.pattern">
+                                            Pincode is invalid</mat-error>
+                                    </mat-form-field>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <mat-form-field class="col-md-6">
+                                        <mat-label>Post office</mat-label>
+                                        <input matInput formControlName="billingPostoffice" required />
+                                        <mat-error
+                                            *ngIf="billingAddressDetail.controls['billingPostoffice'].errors?.required">
+                                            Post office is Required</mat-error>
+                                    </mat-form-field>
+                                    <mat-form-field class="col-md-6">
+                                        <mat-label>City</mat-label>
+                                        <input matInput formControlName="billingCity" required />
+                                        <mat-error
+                                            *ngIf="billingAddressDetail.controls['billingCity'].errors?.required">
+                                            City
+                                            is Required</mat-error>
+                                    </mat-form-field>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <mat-form-field class="col-md-6">
+                                        <mat-label>District</mat-label>
+                                        <input matInput formControlName="billingDistrict" required />
+                                        <mat-error
+                                            *ngIf="billingAddressDetail.controls['billingDistrict'].errors?.required">
+                                            District is Required</mat-error>
+                                    </mat-form-field>
+                                    <mat-form-field class="col-md-6">
+                                        <mat-label>State</mat-label>
+                                        <input matInput formControlName="billingState" required />
+                                        <mat-error
+                                            *ngIf="billingAddressDetail.controls['billingState'].errors?.required">
+                                            State is Required</mat-error>
+                                        <mat-error
+                                            *ngIf="billingAddressDetail.controls['billingState'].errors?.pattern">
+                                            State is invalid</mat-error>
+                                    </mat-form-field>
+                                </div>
+                            </div>
+                        </fieldset>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-12">
+                    <mat-form-field class="col-md-4">
+                        <mat-label>Contact Person Name</mat-label>
+                        <input matInput formControlName="contactPersonName" required>
+                        <mat-error *ngIf="VendorForm.controls['contactPersonName'].errors?.required">Name is required
+                        </mat-error>
+                        <mat-error *ngIf="VendorForm.controls['contactPersonName'].errors?.pattern">Name is invalid
+                        </mat-error>
+                    </mat-form-field>
+                    <mat-form-field class="col-md-4">
+                        <mat-label>Contact Person No.</mat-label>
+                        <input matInput formControlName="contactPersonNo" required>
+                        <mat-error *ngIf="VendorForm.controls['contactPersonNo'].errors?.required">PhNo. is required
+                        </mat-error>
+                        <mat-error *ngIf="VendorForm.controls['contactPersonNo'].errors?.pattern">PhNo. is invalid
+                        </mat-error>
+                    </mat-form-field>
+                    <mat-form-field class="col-md-4">
+                        <mat-label>Contact Person Email</mat-label>
+                        <input matInput formControlName="contactPersonEmail">
+                        <mat-error *ngIf="VendorForm.controls['contactPersonEmail'].errors?.pattern">Email. is invalid
+                        </mat-error>
+                    </mat-form-field>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <mat-form-field class="col-md-4">
+                        <mat-label>Official Phone No.</mat-label>
+                        <input matInput formControlName="phoneNo" required>
+                        <mat-error *ngIf="VendorForm.controls['phoneNo'].errors?.required">PhNo. is required</mat-error>
+                        <mat-error *ngIf="VendorForm.controls['phoneNo'].errors?.pattern">PhNo. is invalid</mat-error>
+                    </mat-form-field>
+                    <mat-form-field class="col-md-4">
+                        <mat-label>Official Email</mat-label>
+                        <input matInput formControlName="email" required>
+                        <mat-error *ngIf="VendorForm.controls['email'].errors?.required">Email is required</mat-error>
+                        <mat-error *ngIf="VendorForm.controls['email'].errors?.pattern">Email is invalid</mat-error>
+                    </mat-form-field>
+                </div>
+            </div>
+        </fieldset>
+        <fieldset>
+            <legend>Statutory Information</legend>
+            <div class="col-md-12" formArrayName="statutoryInfo">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div *ngFor="let item of statutoryInfo.controls; let statIndex=index"
+                            [formGroupName]="statIndex">
+
+                            <mat-form-field class="col-md-5">
+                                <mat-label>Statutory Name</mat-label>
+                                <mat-select formControlName="statutoryName" required>
+                                    <mat-option *ngFor="let stat of Statutories" [value]="stat.statutoryId">
+                                        {{ stat.statutoryName }}
+                                    </mat-option>
+                                </mat-select>
+                                <mat-error
+                                    *ngIf="statutoryInfo.controls[statIndex].get('statutoryName').errors?.required">
+                                    Select a Statutory</mat-error>
+                            </mat-form-field>
+                            <mat-form-field class="col-md-5">
+                                <mat-label>Information</mat-label>
+                                <input matInput formControlName="info" required>
+                                <mat-error *ngIf="statutoryInfo.controls[statIndex].get('info').errors?.required">
+                                    Statutory info is required</mat-error>
+                            </mat-form-field>
+                            <button *ngIf="statIndex==0" type="button" mat-raised-button color="primary"
+                                (click)="addStatutoryInfo()">Add</button>
+
+                            <button *ngIf="statIndex!=0" type="button" mat-raised-button color="warn"
+                                (click)="deleteStatutoryInfo(statIndex)">Remove</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </fieldset>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="col-md-6">
+                    <mat-checkbox formControlName="isActive">Is Active</mat-checkbox>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <mat-form-field class="col-md-12">
+                    <mat-label>Remarks</mat-label>
+                    <textarea style="resize: none;" matInput formControlName="remarks"></textarea>
+                </mat-form-field>
+            </div>
+        </div>
+        <div class="row">
+            <div class="form-group col-md-2">
+                <button type="submit" class="btn btn-primary">Save</button>
+                <input type="hidden" formControlname='vendorId'>
+            </div>
+            <div class="form-group col-md-2">
+                <button type="button" class="btn btn-danger" [mat-dialog-close]="true">Close </button>
+            </div>
+        </div>
+    </form>
+</div>

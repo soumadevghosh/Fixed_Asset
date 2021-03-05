@@ -1,0 +1,138 @@
+<div *ngIf = "isLoaded">
+    <h5 style="left: 45%;position:absolute;">{{Title}}</h5>
+    <ng-container>
+        <form [formGroup]="QuotationForm" (ngSubmit)="onSubmit(QuotationForm)" autocomplete="off">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="col-md-5"><br>
+                        <mat-form-field>
+                            <mat-label>Vendor Name</mat-label>
+                            <mat-select formControlName="VendorId" required>
+                                <mat-option *ngFor="let vendor of model.VendorList" [value]="vendor.vendorId">
+                                    {{ vendor.vendorName }}
+                                </mat-option>
+                            </mat-select>
+                            <mat-error *ngIf="QuotationForm.controls['VendorId'].errors?.required">Select Vendor Name</mat-error>
+                        </mat-form-field>&nbsp;
+                    </div>
+                    <div class="col-md-5">
+                        <input type="file" #inputFile class="hidden" style="width: auto;"(change)="selectFile($event.target.files)">
+                        <button *ngIf="viewButton" type="button" class="btn btn-link"  style="width:auto; color: blue;" (click)="ViewFile()">View</button>
+                        <button *ngIf="removeButton" type="button" class="btn btn-link"  style="width:auto; color: red;" (click)="RemoveFile()">Remove</button>
+                        <input type="text" class="form-control" style="display: none;" formControlName="txthdnFileName">
+                    </div>
+
+                </div>
+            </div>
+            <br>
+            <div class="row">
+                <div class="col-md-12" formArrayName="QuotationItemMapping">
+                    <div *ngFor="let item of QuotationItemMapping.controls; let quoteIndex=index"
+                        [formGroupName]="quoteIndex">
+                        <mat-form-field class="col-md-2">
+                            <mat-label>Inventory Department</mat-label>
+                            <mat-select formControlName="InventoryDeptId"
+                                (selectionChange)="BindItemCategory(quoteIndex)" required>
+                                <mat-option *ngFor="let invDept of model.InventoryDeptList"
+                                    [value]="invDept.InventoryDeptId">
+                                    {{ invDept.InventoryDeptName }}
+                                </mat-option>
+                            </mat-select>
+                            <mat-error
+                                *ngIf="QuotationItemMapping.controls[quoteIndex].get('InventoryDeptId').errors?.required">
+                                Select Department</mat-error>
+                        </mat-form-field>
+                        <mat-form-field class="col-md-2">
+                            <mat-label>Item Category</mat-label>
+                            <mat-select formControlName="ItemCategoryId" (selectionChange)="BindItemGroup(quoteIndex)"
+                                required>
+                                <mat-option *ngFor="let itemCategory of ItemCategoryList[quoteIndex]"
+                                    [value]="itemCategory.ItemCategoryId">
+                                    {{ itemCategory.Itemcategory }}
+                                </mat-option>
+                            </mat-select>
+                            <mat-error
+                                *ngIf="QuotationItemMapping.controls[quoteIndex].get('ItemCategoryId').errors?.required">
+                                Select Item Category</mat-error>
+                        </mat-form-field>
+                        <mat-form-field class="col-md-1">
+                            <mat-label>Item Group</mat-label>
+                            <mat-select formControlName="ItemGroupId" (selectionChange)="BindItem(quoteIndex)" required>
+                                <mat-option *ngFor="let itemgroup of ItemGroupList[quoteIndex]"
+                                    [value]="itemgroup.ItemGroupId">
+                                    {{ itemgroup.ItemGroupName }}
+                                </mat-option>
+                            </mat-select>
+                            <mat-error
+                                *ngIf="QuotationItemMapping.controls[quoteIndex].get('ItemGroupId').errors?.required">
+                                Select
+                                Item Group</mat-error>
+                        </mat-form-field>
+                        <mat-form-field class="col-md-1">
+                            <mat-label>Item</mat-label>
+                            <mat-select formControlName="ItemId" (selectionChange)="getItemInfo(quoteIndex)" required>
+                                <mat-option *ngFor="let item of ItemList[quoteIndex]" [value]="item.itemId">
+                                    {{ item.itemName }}
+                                </mat-option>
+                            </mat-select>
+                            <mat-error *ngIf="QuotationItemMapping.controls[quoteIndex].get('ItemId').errors?.required">
+                                Select an Item</mat-error>
+                        </mat-form-field>
+                        <mat-form-field class="col-md-1">
+                            <mat-label>Unit Price</mat-label>
+                            <input matInput formControlName="UnitPrice" required>
+                            <mat-error
+                                *ngIf="QuotationItemMapping.controls[quoteIndex].get('UnitPrice').errors?.required">
+                                Unit Price is required</mat-error>
+                            <mat-error
+                                *ngIf="QuotationItemMapping.controls[quoteIndex].get('UnitPrice').errors?.pattern">
+                                Unit Price is Invalid</mat-error>
+                        </mat-form-field>
+                        <mat-form-field class="col-md-1">
+                            <mat-label>Min Order Quantity</mat-label>
+                            <input matInput formControlName="MinOrderQty" required>
+                            <mat-error
+                                *ngIf="QuotationItemMapping.controls[quoteIndex].get('MinOrderQty').errors?.required">
+                                Required</mat-error>
+                            <mat-error
+                                *ngIf="QuotationItemMapping.controls[quoteIndex].get('MinOrderQty').errors?.pattern">
+                                Invalid Syntax</mat-error>
+                        </mat-form-field>
+                        <mat-form-field class="col-md-1">
+                            <mat-label>CGST</mat-label>
+                            <input matInput formControlName="CGST" readonly>
+                        </mat-form-field>
+                        <mat-form-field class="col-md-1">
+                            <mat-label>SGST</mat-label>
+                            <input matInput formControlName="SGST" readonly>
+                        </mat-form-field>
+                        <mat-form-field class="col-md-1">
+                            <mat-label>IGST</mat-label>
+                            <input matInput formControlName="IGST" readonly>
+                        </mat-form-field>
+                        <button *ngIf="quoteIndex==0" type="button" mat-raised-button color="primary"
+                             (click)="addRow()">Add</button>
+                        <button *ngIf="quoteIndex!=0" type="button" mat-raised-button color="warn"
+                            
+                            (click)="deleteRow(quoteIndex)">Remove</button>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <br><br>
+                <div class="form-group col-md-2">
+                    &nbsp;&nbsp;<button type="submit" mat-raised-button color="primary">Save</button>
+                </div>
+                <div class="col-md-8"></div>
+                <div class="form-group col-md-2">
+                    <button type="button" class="btn btn-link" style="width: auto; color: #000;" (click)="backToList()">&#8592; Back
+                        to
+                        Quotation List</button>
+                </div>
+            </div>
+        </form>
+    </ng-container>
+</div>
+<div *ngIf="isGridLoaded">
+    <app-quotation-list></app-quotation-list>
+</div>

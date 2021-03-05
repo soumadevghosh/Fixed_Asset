@@ -1,0 +1,36 @@
+<form #EmployeeCategoryForm="ngForm" (ngSubmit)="onSubmit(EmployeeCategoryForm)">
+    <div class="row">
+        <div class="col-md-12">
+            <mat-form-field class="col-md-6">
+            <input matInput [(ngModel)]="model.employeeCategory" name="employeeCategory" #employeeCategory="ngModel" placeholder="Employee Category" autocomplete="off" required>
+            </mat-form-field>   
+        
+            <mat-form-field class="col-md-6">
+            <input matInput [(ngModel)]="model.shortName" name="shortName" #empCatShortName="ngModel" placeholder="Short Name" autocomplete="off" maxlength="2" required [disabled]="model.employeeCategoryId">
+            </mat-form-field> 
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="col-md-6">
+            <mat-checkbox [(ngModel)]="model.isActive" name="IsActive" #empCatIsActive="ngModel">Is Active</mat-checkbox>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <mat-form-field class="col-md-12">
+            <textarea matInput matInput [(ngModel)]="model.remarks" name="Remarks" #empCatRemarks="ngModel" placeholder="Remarks" autocomplete="off"></textarea>
+            </mat-form-field>
+        </div>
+    </div>
+    <div class="row">
+         <div class="form-group col-md-2">
+             <button type="submit" class="btn btn-primary">Save</button>
+            <input type="hidden" [(ngModel)]='model.employeeCategoryId' name="employeeCategoryId">
+         </div>
+         <div class="form-group col-md-2">
+             <button type="button" class="btn btn-danger" (click)="closeModal()">Close</button>
+         </div>
+    </div>
+</form>

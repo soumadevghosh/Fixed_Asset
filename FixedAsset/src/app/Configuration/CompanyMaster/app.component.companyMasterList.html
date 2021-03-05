@@ -1,0 +1,76 @@
+<div class="container-fluid">
+    <h5 style="left: 45%;position:absolute;">Company Master</h5>
+    <div class="panel panel-default card-view ">
+        <div class="panel-body">
+            <p>
+                <button type="button" class="btn btn-primary" (click)="openDialog()">Add New</button>
+                
+            </p> 
+            <mat-form-field class="search-form-field">
+                <input matInput [(ngModel)]="searchKey" placeholder="Search" autocomplete="off" (keyup)="applyFilter()">
+            </mat-form-field>          
+            <div class="table table-responsive">
+                <mat-table [dataSource]="datasource" matSort >
+                    <ng-container matColumnDef="position">
+                        <mat-header-cell *matHeaderCellDef> Sl No. </mat-header-cell>
+                        <mat-cell *matCellDef="let row let i=index;"> 
+                        {{ (paginatorRef.pageIndex * paginatorRef.pageSize) + (i + 1) }}
+                        </mat-cell>
+                    </ng-container>
+                    <ng-container  matColumnDef="companyName">
+                        <mat-header-cell *matHeaderCellDef mat-sort-header>Company Name</mat-header-cell>
+                        <mat-cell *matCellDef="let cp">{{cp.companyName}}</mat-cell>
+                    </ng-container>
+                    <ng-container  matColumnDef="inventoryDeptName">
+                        <mat-header-cell *matHeaderCellDef mat-sort-header>Inventory Department</mat-header-cell>
+                        <mat-cell *matCellDef="let cp">{{cp.inventoryDeptName}}</mat-cell>
+                    </ng-container>
+                    <ng-container  matColumnDef="productStatus">
+                        <mat-header-cell *matHeaderCellDef mat-sort-header>Product</mat-header-cell>
+                        <mat-cell *matCellDef="let cp" [ngClass]="cp.productStatus=='NO' ? 'cellRedColor' : 'cellGreenColor'">{{cp.productStatus}}</mat-cell>
+
+                    </ng-container>
+                    <ng-container  matColumnDef="maintenanceStatus">
+                        <mat-header-cell *matHeaderCellDef mat-sort-header>Maintenance</mat-header-cell>
+                        <mat-cell *matCellDef="let cp" [ngClass]="cp.maintenanceStatus=='NO' ? 'cellRedColor' : 'cellGreenColor'">{{cp.maintenanceStatus}}</mat-cell>
+
+                    </ng-container>
+                    <ng-container  matColumnDef="serviceStatus">
+                        <mat-header-cell *matHeaderCellDef mat-sort-header>Service</mat-header-cell>
+                        <mat-cell *matCellDef="let cp" [ngClass]="cp.serviceStatus=='NO' ? 'cellRedColor' : 'cellGreenColor'">{{cp.serviceStatus}}</mat-cell>
+
+                    </ng-container>
+                    <ng-container  matColumnDef="addedOn">
+                        <mat-header-cell *matHeaderCellDef mat-sort-header>Created Date</mat-header-cell>
+                        <mat-cell *matCellDef="let cp">{{cp.addedOn}}</mat-cell>
+                    </ng-container>
+                    <ng-container  matColumnDef="status">
+                        <mat-header-cell *matHeaderCellDef mat-sort-header>Status</mat-header-cell>
+                        <mat-cell *matCellDef="let cp" [ngClass]="cp.status=='Inactive' ? 'cellRedColor' : 'cellGreenColor'">{{cp.status}}</mat-cell>
+                    </ng-container>
+                    <ng-container matColumnDef="Action">
+                        <mat-header-cell *matHeaderCellDef>Action</mat-header-cell>
+                        <mat-cell *matCellDef="let cp" class="grid-button-row">  
+                            <button mat-raised-button color="primary" (click)='onEdit(cp)'>Edit</button>
+                        </mat-cell>
+                    </ng-container>
+                    <ng-container matColumnDef="loading">
+                        <mat-footer-cell *matFooterCellDef colspan="6">
+                           Loading Please Wait...
+                        </mat-footer-cell>
+                     </ng-container>
+                     <ng-container matColumnDef="noData">
+                        <mat-footer-cell *matFooterCellDef colspan="6">
+                           No Data Found
+                        </mat-footer-cell>
+                     </ng-container>
+                    <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+                    <mat-row *matRowDef="let row; columns:displayedColumns"></mat-row>
+                    <mat-footer-row *matFooterRowDef="['loading']" [ngClass]="{'gridFooter':datasource!=null}"></mat-footer-row>
+                    <mat-footer-row *matFooterRowDef="['noData']" [ngClass]="{'gridFooter':!(datasource!=null && datasource.data.length==0)}"></mat-footer-row>
+                </mat-table>
+                <mat-paginator [pageSizeOptions]="[25,50,100]" [pageSize]="25" showFirstLastButtons #paginatorRef></mat-paginator>
+            </div>
+        </div>
+    </div>
+</div>

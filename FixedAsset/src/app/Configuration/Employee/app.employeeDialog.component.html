@@ -1,0 +1,369 @@
+<button class="close" mat-icon-button [mat-dialog-close]="true">&times;</button>
+<div mat-dialog-title>{{Title}}</div>
+<div mat-dialog-content>
+    <form #EmployeeForm="ngForm" (ngSubmit)="onSubmit(EmployeeForm)">
+        <fieldset>
+            <legend>Personal Detail</legend>
+            <div class="row">
+                <div class="col-md-12">
+                    <mat-form-field class="col-md-3">
+                        <input matInput [(ngModel)]="model.EmployeeName" name="employeeName" #empName="ngModel"
+                            placeholder="Employee Name" autocomplete="off"
+                            pattern="^[A-Za-z\s]{1,}[\.]{0,1}[A-Za-z\s]{0,}$" required>
+                        <mat-error *ngIf="empName.errors?.required">Employee name is required</mat-error>
+                        <mat-error *ngIf="empName.errors?.pattern">Employee name is invalid</mat-error>
+                    </mat-form-field>
+
+                    <mat-form-field class="col-md-3">
+                        <input matInput [(ngModel)]="model.FatherGuardianName" name="employeeGuardianName"
+                            #empGuardianName="ngModel" placeholder="Guardian Name" autocomplete="off"
+                            pattern="^[A-Za-z\s]{1,}[\.]{0,1}[A-Za-z\s]{0,}$">
+                        <mat-error *ngIf="empGuardianName.errors?.pattern">Guardian's name is invalid</mat-error>
+                    </mat-form-field>
+
+                    <mat-form-field class="col-md-3">
+                        <mat-label>Gender</mat-label>
+                        <mat-select [(ngModel)]="model.Sex" name="employeeSex" #empSex="ngModel" required>
+                            <mat-option *ngFor="let gender of genders" [value]="gender.Value">
+                                {{ gender.Text }}
+                            </mat-option>
+                        </mat-select>
+                        <mat-error *ngIf="empSex.errors?.required">Select a gender</mat-error>
+                    </mat-form-field>
+
+                    <mat-form-field class="col-md-3" [formGroup]="EmpFormGroup">
+                        <input matInput [matDatepicker]="DoBDatepicker" placeholder="Date Of Birth" autocomplete="off"
+                            name="birthDate" formControlName="birthDate" required>
+                        <mat-datepicker-toggle matSuffix [for]="DoBDatepicker"></mat-datepicker-toggle>
+                        <mat-datepicker [startAt]="birthDate" #DoBDatepicker></mat-datepicker>
+                        <mat-error *ngIf="EmpFormGroup.controls['birthDate'].errors?.required">Date of birth is required
+                        </mat-error>
+                    </mat-form-field>
+
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <mat-form-field class="col-md-3">
+                        <mat-label>Marital Status</mat-label>
+                        <mat-select [(ngModel)]="model.MaritalStatus" name="employeeMaritalStatus"
+                            #empMaritalStatus="ngModel" required>
+                            <mat-option *ngFor="let Marital of Maritals" [value]="Marital.Value">
+                                {{ Marital.Text }}
+                            </mat-option>
+                        </mat-select>
+                        <mat-error *ngIf="empMaritalStatus.errors?.required">Select marital status</mat-error>
+                    </mat-form-field>
+
+                    <mat-form-field class="col-md-3">
+                        <input matInput [(ngModel)]="model.Qualification" name="employeeQualification"
+                            #empQualification="ngModel" placeholder="Qualification" autocomplete="off" required>
+                        <mat-error *ngIf="empQualification.errors?.required">Qualification is required</mat-error>
+                    </mat-form-field>
+
+                    <mat-form-field class="col-md-3">
+                        <input matInput [(ngModel)]="model.NoOfDependent" name="employeeNoOfDependent"
+                            #empNoOfDependent="ngModel" placeholder="No Of Dependent" autocomplete="off"
+                            pattern="^(?:[1-9]|0[1-9]|10)$">
+                        <mat-error *ngIf="empNoOfDependent.errors?.pattern">No. Of Dependent is invalid</mat-error>
+                    </mat-form-field>
+
+                    <mat-form-field class="col-md-3">
+                        <input matInput [(ngModel)]="model.WorkExp" name="employeeWorkExp" #empWorkExp="ngModel"
+                            placeholder="Work Exp In Year" autocomplete="off"
+                            pattern="(^99([.]0{1,2})?)$|(^\d{1,2}([.]\d{1,2})?)$">
+                        <mat-error *ngIf="empWorkExp.errors?.pattern">Work Exp is invalid</mat-error>
+                    </mat-form-field>
+
+                </div>
+            </div>
+
+
+        </fieldset>
+
+        <fieldset>
+            <div style="float: left;">
+                <legend>Current Contact Detail</legend>
+                <div class="row">
+                    <div class="col-md-12">
+                        <mat-form-field class="col-md-6">
+                            <input matInput [(ngModel)]="model.CAddress" name="employeeCAddress" #empCAddress="ngModel"
+                                placeholder="Street No./House No." autocomplete="off" required>
+                            <mat-error *ngIf="empCAddress.errors?.required">StreetNo./HouseNo. is required</mat-error>
+                        </mat-form-field>
+
+                        <mat-form-field class="col-md-6">
+                            <input matInput [(ngModel)]="model.CCity" name="employeeCCity" #empCCity="ngModel"
+                                placeholder="City/Town/Village" autocomplete="off" required>
+                            <mat-error *ngIf="empCCity.errors?.required">City/Town/Village is required</mat-error>
+                        </mat-form-field>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <mat-form-field class="col-md-6">
+                            <input matInput [(ngModel)]="model.CPs" name="employeeCPs" #empCPs="ngModel"
+                                placeholder="Police Station" autocomplete="off" required>
+                            <mat-error *ngIf="empCPs.errors?.required">Police Station is required</mat-error>
+                        </mat-form-field>
+
+                        <mat-form-field class="col-md-6">
+                            <input matInput [(ngModel)]="model.CDist" name="employeeCDist" #empCDist="ngModel"
+                                placeholder="District" autocomplete="off" required>
+                            <mat-error *ngIf="empCDist.errors?.required">District is required</mat-error>
+                        </mat-form-field>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <mat-form-field class="col-md-6">
+                            <input matInput [(ngModel)]="model.CPinCode" name="employeeCPinCode" #empCPinCode="ngModel"
+                                placeholder="Pincode" autocomplete="off" pattern="^\d{3}\d{3}$" required>
+                            <mat-error *ngIf="empCPinCode.errors?.required">Pincode is required</mat-error>
+                            <mat-error *ngIf="empCPinCode.errors?.pattern">Pincode is invalid</mat-error>
+                        </mat-form-field>
+
+                        <mat-form-field class="col-md-6">
+                            <input matInput [(ngModel)]="model.CPost" name="employeeCPost" #empCPost="ngModel"
+                                placeholder="Post Office" autocomplete="off" required>
+                            <mat-error *ngIf="empCPost.errors?.required">Post Office is required</mat-error>
+                        </mat-form-field>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <mat-form-field class="col-md-6">
+                            <input matInput [(ngModel)]="model.CState" name="employeeCState" #empCState="ngModel"
+                                placeholder="State" autocomplete="off" required>
+                            <mat-error *ngIf="empCState.errors?.required">State is required</mat-error>
+                        </mat-form-field>
+
+                        <mat-form-field class="col-md-6">
+                            <input matInput [(ngModel)]="model.CCountry" name="employeeCCountry" #empCCountry="ngModel"
+                                placeholder="Country" autocomplete="off" required>
+                            <mat-error *ngIf="empCCountry.errors?.required">Country is required</mat-error>
+                        </mat-form-field>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <mat-form-field class="col-md-6">
+                            <input matInput [(ngModel)]="model.Phone" name="employeePhone" #empPhone="ngModel"
+                                placeholder="Phone No" autocomplete="off" pattern="^[0-9]{8,15}$">
+                            <mat-error *ngIf="empPhone.errors?.pattern">Phone No. is invalid</mat-error>
+                        </mat-form-field>
+
+                        <mat-form-field class="col-md-6">
+                            <input matInput [(ngModel)]="model.Mobile" name="employeeMobile" #empMobile="ngModel"
+                                placeholder="Mobile No" autocomplete="off" pattern="^[1-9]\d{9}$" required>
+                            <mat-error *ngIf="empMobile.errors?.required">Mobile No. is required</mat-error>
+                            <mat-error *ngIf="empMobile.errors?.pattern">Mobile No. is invalid</mat-error>
+                        </mat-form-field>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <mat-form-field class="col-md-6">
+                            <input matInput [(ngModel)]="model.EMail" name="employeeEMail" #empEMail="ngModel"
+                                placeholder="Email" autocomplete="off"
+                                pattern="^(\D)+(\w)*((\.(\w)+)?)+@(\D)+(\w)*((\.(\D)+(\w)*)+)?(\.)[a-z]{2,}$">
+                            <mat-error *ngIf="empEMail.errors?.pattern">Email is invalid</mat-error>
+                        </mat-form-field>
+                        <div class="col-md-6">
+                            <mat-checkbox [(ngModel)]="isSameAsCurrentAddress"
+                                (change)="setPermanentAddess(isSameAsCurrentAddress?true:false)"
+                                name="employeeSameAsCurrentAddress">Permanet Contact Detail Is Same</mat-checkbox>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div style="float: right;">
+                <legend>Permanent Contact Detail</legend>
+                <div class="row">
+                    <div class="col-md-12">
+                        <mat-form-field class="col-md-6">
+                            <input matInput [(ngModel)]="model.PAddress" name="employeePAddress" #empPAddress="ngModel"
+                                placeholder="Street No/House No" autocomplete="off">
+                        </mat-form-field>
+
+                        <mat-form-field class="col-md-6">
+                            <input matInput [(ngModel)]="model.PCity" name="employeePCity" #empPCity="ngModel"
+                                placeholder="City/Town/Village" autocomplete="off">
+                        </mat-form-field>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <mat-form-field class="col-md-6">
+                            <input matInput [(ngModel)]="model.PPs" name="employeePPs" #empPPs="ngModel"
+                                placeholder="Police Station" autocomplete="off">
+                        </mat-form-field>
+
+                        <mat-form-field class="col-md-6">
+                            <input matInput [(ngModel)]="model.PDist" name="employeePDist" #empPDist="ngModel"
+                                placeholder="District" autocomplete="off">
+                        </mat-form-field>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <mat-form-field class="col-md-6">
+                            <input matInput [(ngModel)]="model.PPinCode" name="employeePPinCode" #empPPinCode="ngModel"
+                                placeholder="Pincode" autocomplete="off">
+                        </mat-form-field>
+
+                        <mat-form-field class="col-md-6">
+                            <input matInput [(ngModel)]="model.PPost" name="employeePPost" #empPPost="ngModel"
+                                placeholder="Post Office" autocomplete="off">
+                        </mat-form-field>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <mat-form-field class="col-md-6">
+                            <input matInput [(ngModel)]="model.PState" name="employeePState" #empPState="ngModel"
+                                placeholder="State" autocomplete="off"
+                                pattern="^[A-Za-z\s]{1,}[\.]{0,1}[A-Za-z\s]{0,}$">
+                            <mat-error *ngIf="empPState.errors?.pattern">State name is invalid</mat-error>
+                        </mat-form-field>
+
+                        <mat-form-field class="col-md-6">
+                            <input matInput [(ngModel)]="model.PCountry" name="employeePCountry" #empPCountry="ngModel"
+                                placeholder="Country" autocomplete="off"
+                                pattern="^[A-Za-z\s]{1,}[\.]{0,1}[A-Za-z\s]{0,}$">
+                            <mat-error *ngIf="empPCountry.errors?.pattern">Country name is invalid</mat-error>
+                        </mat-form-field>
+                    </div>
+                </div>
+            </div>
+
+        </fieldset>
+
+        <fieldset>
+            <legend>Other Detail</legend>
+            <div class="row">
+                <div class="col-md-12">
+                    <mat-form-field class="col-md-3">
+                        <input matInput [(ngModel)]="model.BloodGroup" name="employeeBloodGroup"
+                            #empBloodGroup="ngModel" placeholder="Blood Group" autocomplete="off" required
+                            pattern="^([AaBbOo]|[Aa][Bb])[\+-]$">
+                        <mat-error *ngIf="empBloodGroup.errors?.required">Blood group is required</mat-error>
+                        <mat-error *ngIf="empBloodGroup.errors?.pattern">Blood group is invalid</mat-error>
+                    </mat-form-field>
+
+                    <mat-form-field class="col-md-3" [formGroup]="EmpFormGroup">
+                        <input matInput [matDatepicker]="DoADatepicker" placeholder="Date Of Appointment"
+                            autocomplete="off" name="appointDate" formControlName="appointDate" required>
+                        <mat-datepicker-toggle matSuffix [for]="DoADatepicker"></mat-datepicker-toggle>
+                        <mat-datepicker [startAt]="appointDate" #DoADatepicker></mat-datepicker>
+                        <mat-error *ngIf="EmpFormGroup.controls.appointDate.errors?.required">Appointment Date is
+                            required</mat-error>
+                    </mat-form-field>
+
+                    <mat-form-field class="col-md-3" [formGroup]="EmpFormGroup">
+                        <input matInput [matDatepicker]="DoJDatepicker" placeholder="Date Of Joining" autocomplete="off"
+                            name="joiningDate" formControlName="joiningDate" required>
+                        <mat-datepicker-toggle matSuffix [for]="DoJDatepicker"></mat-datepicker-toggle>
+                        <mat-datepicker [startAt]="joiningDate" #DoJDatepicker></mat-datepicker>
+                        <mat-error *ngIf="EmpFormGroup.controls.joiningDate.errors?.required">Joining Date is required
+                        </mat-error>
+                    </mat-form-field>
+
+                    <mat-form-field class="col-md-3">
+                        <mat-label>Status Of Appointment</mat-label>
+                        <mat-select [(ngModel)]="model.Status" name="employeeStatus" #empStatus="ngModel" required>
+                            <mat-option *ngFor="let status of AppointmentStatus" [value]="status.Value">
+                                {{ status.Text }}
+                            </mat-option>
+                        </mat-select>
+                        <mat-error *ngIf="empStatus.errors?.required">Appointment status is required</mat-error>
+                    </mat-form-field>
+
+
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <mat-form-field class="col-md-3">
+                        <mat-label>Department</mat-label>
+                        <mat-select [(ngModel)]="model.Department" name="employeeDepartment" #empDepartment="ngModel"
+                            required>
+                            <mat-option *ngFor="let dept of model.EmpDepartmentList" [value]="dept.departmentName">
+                                {{ dept.departmentName }}
+                            </mat-option>
+                        </mat-select>
+                        <mat-error *ngIf="empDepartment.errors?.required">Department is required</mat-error>
+                    </mat-form-field>
+
+                    <mat-form-field class="col-md-3">
+                        <input matInput [(ngModel)]="model.Designation" name="employeeDesignation"
+                            #empDesignation="ngModel" placeholder="Designation" autocomplete="off" required>
+                        <mat-error *ngIf="empDesignation.errors?.required">Designation is required</mat-error>
+                    </mat-form-field>
+
+                    <mat-form-field class="col-md-3">
+                        <mat-label>Category</mat-label>
+                        <mat-select [(ngModel)]="model.Category" name="employeeCategory" #empCategory="ngModel"
+                            (selectionChange)="onCategoryChange(empCategory.value)" required>
+                            <mat-option *ngFor="let cat of model.EmpCategoryList" [value]="cat.employeeCategory">
+                                {{ cat.employeeCategory }}
+                            </mat-option>
+                        </mat-select>
+                        <mat-error *ngIf="empCategory.errors?.required">Employee category is required</mat-error>
+                    </mat-form-field>
+
+                    <mat-form-field class="col-md-3" [formGroup]="EmpFormGroup">
+                        <input matInput [matDatepicker]="DoResignDatepicker" placeholder="Date Of Resignation"
+                            autocomplete="off" name="resignationDate" formControlName="resignationDate">
+                        <mat-datepicker-toggle matSuffix [for]="DoResignDatepicker"></mat-datepicker-toggle>
+                        <mat-datepicker [startAt]="resignationDate" #DoResignDatepicker></mat-datepicker>
+                    </mat-form-field>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+
+                    <mat-form-field class="col-md-3" [formGroup]="EmpFormGroup">
+                        <input matInput [matDatepicker]="RegnDatepicker" placeholder="Registration Validity Date"
+                            autocomplete="off" name="registrationValidity" formControlName="registrationValidity"
+                            [required]="DorReq">
+                        <mat-datepicker-toggle matSuffix [for]="RegnDatepicker"></mat-datepicker-toggle>
+                        <mat-datepicker [startAt]="registrationValidity" #RegnDatepicker></mat-datepicker>
+                        <mat-error *ngIf="EmpFormGroup.controls.registrationValidity.errors?.required && DorReq==true">
+                            Registration validity is required</mat-error>
+                    </mat-form-field>
+
+                    <mat-form-field class="col-md-3">
+                        <input matInput [(ngModel)]="model.ProvidentFundNO" name="employeeProvidentFundNO"
+                            #empProvidentFundNO="ngModel" placeholder="ProvidentFund NO" autocomplete="off">
+                    </mat-form-field>
+
+                    <mat-form-field class="col-md-6">
+                        <textarea matInput [(ngModel)]="model.CommentID" name="employeeCommentID"
+                            #empCommentID="ngModel" placeholder="Comment" autocomplete="off"
+                            style="resize: none;"></textarea>
+                    </mat-form-field>
+                </div>
+            </div>
+        </fieldset>
+
+        <div class="row">
+            <div class="col-md-12">
+                <div class="col-md-6">
+                    <mat-checkbox [(ngModel)]="model.isActive" name="IsActive" #empIsActive="ngModel">Is Active
+                    </mat-checkbox>
+                </div>
+            </div>
+        </div>
+        <br>
+        <div class="row">
+            <div class="form-group col-md-2">
+                <button type="submit" class="btn btn-primary">Save</button>
+                <input type="hidden" [(ngModel)]='model.EmployeeId' name="employeeId" #empEmployeeId="ngModel">
+            </div>
+            <div class="form-group col-md-2">
+                <button type="button" class="btn btn-danger" (click)="closeModal()">Close</button>
+            </div>
+        </div>
+    </form>
+</div>

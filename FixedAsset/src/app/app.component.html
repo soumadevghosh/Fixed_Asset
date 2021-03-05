@@ -1,0 +1,17 @@
+<!-- header container -->
+<app-header *ngIf='showHeader'></app-header>
+<!-- header container -->
+
+<!-- spinner -->
+<app-loader></app-loader>
+<!-- spinner -->
+
+<!-- main app container -->
+<div class="renderBody">
+<router-outlet></router-outlet>
+</div>
+<!-- main app container -->
+
+<!-- footer container -->
+<app-footer></app-footer>
+<!-- footer container -->

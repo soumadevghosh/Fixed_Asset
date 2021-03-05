@@ -1,0 +1,130 @@
+/* You can add global styles to this file, and also import other style files */
+
+@import '../node_modules/bootstrap/dist/css/bootstrap.min.css';
+@import '~@angular/material/prebuilt-themes/deeppurple-amber.css';
+@import "~@angular/material/prebuilt-themes/indigo-pink.css";
+/* 
+body{
+    font-family: Roboto;
+} */
+
+.renderBody{
+    margin-top: 2%;
+}
+.gridFooter{
+    display: none;
+}
+.search-form-field{
+    float: right;
+}
+.cellRedColor{
+    color: red;
+    font-weight: bold;
+}
+.cellGreenColor{
+    color: green;
+    font-weight: bold;
+}
+.grid-button-row button,
+.grid-button-row a {
+  margin-right: 8px;
+}
+.confirm-dialog-container .content-container{
+    margin: 5px 5px 15px 5px;
+    color: #8f9cb5;
+    display:flex;
+}
+.confirm-dialog-container #yes-button{
+   height: 50px;
+   width: 50px;
+   background-color:green;
+   color: white;
+   border-radius: 0px;
+}
+.confirm-dialog-container #no-button{
+    height: 50px;
+    width: 50px;
+    background-color:red;
+    color: white;
+    border-radius: 0px;
+ }
+.close.mat-icon-button:focus {
+    outline: 0px solid transparent;
+}
+.mat-dialog-title{
+    text-align: center;
+}
+button{
+    width: 100px;
+}
+/* hover on nav bar dropdown */
+.dropdown:hover .dropdown-menu{
+  display: block !important;
+ 
+}
+
+.dropdown-menu{
+  max-height: 230px !important;
+  overflow: auto !important;
+}
+/*dropdown-menu-right for logout*/
+.logout{
+  right: 0 !important;
+  left: auto !important;
+  text-align: center !important;
+}
+
+/**/
+.loggedUserDetails{
+  color:#fff; 
+  display: flex; 
+  flex-direction: column; 
+  font-size:small;
+}
+
+/*table responsive*/
+/* @media screen and (max-width: 1080px) {
+    .mat-table {
+      border: 0;
+      vertical-align: middle
+    }
+    .mat-table .mat-header-cell {
+      
+        border: 10px solid;
+        clip: rect(0 0 0 0);
+        height: 1px;
+        margin: -1px;
+        padding: 0;
+        position: absolute;
+        width: 1px;
+        
+    } 
+   
+    .mat-table .mat-row {
+      border-bottom: 5px solid #ddd;
+      display: block;
+           
+    }
+    .mat-table .mat-cell {
+      border-bottom: 1px solid #ddd;
+      display: block;
+      font-size: 1em;
+      text-align: right;
+      
+      height:30px;
+      margin-bottom: 4%;
+    }
+    .mat-table .mat-cell:before {
+        content: attr(data-lable); 
+      float: left;
+      text-transform: uppercase;
+      font-weight: bold;
+      font-size: .85em;
+    } 
+    .mat-table .mat-cell:last-child {
+      border-bottom: 0;
+    }
+      .mat-table .mat-cell:first-child {
+      margin-top: 4%;
+    }
+  } */

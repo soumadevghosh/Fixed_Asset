@@ -1,0 +1,40 @@
+table {
+  width: 100%;
+}
+
+tr.example-detail-row {
+  height: 0;
+}
+
+/* tr {
+  
+  display: flex;
+} */
+
+tr.example-element-row:not(.example-expanded-row):hover {
+  background: whitesmoke;
+}
+
+tr.example-element-row:not(.example-expanded-row):active {
+ background: whitesmoke;
+}
+
+.example-element-row td{
+  border-bottom-width: 0;
+}
+.table th {
+  vertical-align: middle;
+  border-top-width: 0;
+}
+.table td{
+  vertical-align: middle;
+}
+#expanded td{
+  border-bottom: 0;
+}
+.example-element-detail {
+  overflow: hidden;
+  display: flex;
+}
+
+
